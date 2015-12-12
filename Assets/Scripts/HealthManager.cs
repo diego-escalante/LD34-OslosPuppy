@@ -10,17 +10,30 @@ public class HealthManager : MonoBehaviour {
   private SpriteRenderer sr;
   private Color originalColor;
 
+  private bool isPlayer = false;
+  private PlayerAttackBehavior playerAtk;
+
   //===================================================================================================================
 
   private void Start() {
     currentHealth = maxHealth;
     sr = GetComponent<SpriteRenderer>();
     originalColor = sr.color;
+
+    if(gameObject.tag == "Player") {
+      isPlayer = true;
+      playerAtk = GetComponent<PlayerAttackBehavior>();
+    }
   }
 
   //===================================================================================================================
 
   public void modifyHealth(float amount) {
+    if(isPlayer && playerAtk.IsShielding) {
+      playerAtk.block();
+      return;
+    }
+
     currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
     if(currentHealth == 0) death();
 
@@ -30,7 +43,7 @@ public class HealthManager : MonoBehaviour {
   //===================================================================================================================
 
   private void death() {
-    if(gameObject.name == "Player") SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Restart.
+    if(isPlayer) SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Restart.
     Destroy(gameObject);
   }
 
@@ -46,5 +59,4 @@ public class HealthManager : MonoBehaviour {
       yield return new WaitForFixedUpdate();
     }
   }
-
 }

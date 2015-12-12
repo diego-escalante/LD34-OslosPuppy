@@ -7,7 +7,9 @@ public class PlayerAttackBehavior : MonoBehaviour {
   [SerializeField] private GameObject shieldPrefab;
 
   private GameObject shield;
+  private SpriteRenderer shieldSR;
   private bool isShielding = false;
+  private Color shieldColor;
 
   //Properties.
   public bool IsShielding {get {return isShielding;}}
@@ -40,6 +42,8 @@ public class PlayerAttackBehavior : MonoBehaviour {
   private void shieldUp() {
     isShielding = true;
     shield = (GameObject)Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+    shieldSR = shield.GetComponent<SpriteRenderer>();
+    shieldColor = shieldSR.color;
     StartCoroutine("shielding");
   }
 
@@ -60,5 +64,24 @@ public class PlayerAttackBehavior : MonoBehaviour {
 
     //Destroy the shield after we are done.
     Destroy(shield);
+  }
+
+  //===================================================================================================================
+
+  public void block(){
+    StartCoroutine("flashColor", Color.blue);
+  }
+
+  //===================================================================================================================
+
+  private IEnumerator flashColor(Color c){
+    float currentTime = 0;
+    float endTime = 0.5f;
+
+    while(currentTime < endTime) {
+      currentTime += Time.deltaTime;
+      shieldSR.color = Color.Lerp(c, shieldColor, currentTime/endTime);
+      yield return new WaitForFixedUpdate();
+    }
   }
 }
