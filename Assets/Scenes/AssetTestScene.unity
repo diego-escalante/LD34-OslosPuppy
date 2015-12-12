@@ -373,6 +373,7 @@ GameObject:
   - 114: {fileID: 1237028620}
   - 114: {fileID: 1237028618}
   - 114: {fileID: 1237028621}
+  - 114: {fileID: 1237028622}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -493,6 +494,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireballPrefab: {fileID: 160554, guid: 4611e261577c7994792086685b325ecb, type: 2}
   shieldPrefab: {fileID: 152330, guid: 315120fba2d6f934e8107b9c2b4b80c5, type: 2}
+--- !u!114 &1237028622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1237028614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f48472f1af9867445b4ee87645baf457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &1278244641
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,6 +899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0.1
   acceleration: 0.05
+  damage: 1
 --- !u!61 &2027815401
 BoxCollider2D:
   m_ObjectHideFlags: 0

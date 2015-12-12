@@ -6,6 +6,7 @@ public class EnemyMovement : MonoBehaviour {
 
   [SerializeField] private float maxSpeed = 0.25f;
   [SerializeField] private float acceleration = 0.0075f;
+  [SerializeField] private float damage = 1f;
 
   //Movement stuff.
   private float targetSpeed = 0;
@@ -35,6 +36,7 @@ public class EnemyMovement : MonoBehaviour {
   //Other.
   private Transform atkPoint;
   private Collider2D targetColl;
+  private HealthManager targetHM;
   private Transform target;
 
   //===================================================================================================================
@@ -144,7 +146,6 @@ public class EnemyMovement : MonoBehaviour {
     else {
       int desiredDirection = getDirection(false);
       int actualDirection = getDirection(true);
-      print(string.Format("Desired: {0}, Actual: {1}", desiredDirection, actualDirection));
 
       if(desiredDirection != actualDirection && actualDirection != 0) {
         actions.Pop();
@@ -198,7 +199,9 @@ public class EnemyMovement : MonoBehaviour {
     isAttacking = true;
     targetSpeed = 0;
     print("Attacking!");
-    yield return new WaitForSeconds(2f);
+    yield return new WaitForSeconds(1f);
+    if(targetColl.OverlapPoint(atkPoint.position)) targetHM.modifyHealth(-damage);
+    yield return new WaitForSeconds(1f);
     isAttacking = false;
   }
 
@@ -240,6 +243,7 @@ public class EnemyMovement : MonoBehaviour {
   private void switchTarget(GameObject newTarget) {
     target = newTarget.transform;
     targetColl = newTarget.GetComponent<Collider2D>();
+    targetHM = newTarget.GetComponent<HealthManager>();
   }
 
   //===================================================================================================================
