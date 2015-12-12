@@ -24,7 +24,7 @@ public class HealthManager : MonoBehaviour {
     currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
     if(currentHealth == 0) death();
 
-    if(amount < 0) StartCoroutine("flashColor",Color.red);
+    if(amount < 0) StartCoroutine("flashColor",Color.white);
   }
 
   //===================================================================================================================
@@ -38,7 +38,7 @@ public class HealthManager : MonoBehaviour {
 
   private IEnumerator flashColor(Color c){
     float currentTime = 0;
-    float endTime = 0.5f;
+    float endTime = 0.25f;
 
     while(currentTime < endTime) {
       currentTime += Time.deltaTime;

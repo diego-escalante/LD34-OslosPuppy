@@ -16,18 +16,10 @@ public class EnemyMovement : MonoBehaviour {
   //AI.
   private delegate void Action();                       //Delegate holding an action.
   private Stack<Action> actions = new Stack<Action>();  //Stack holding all the actions. Top action is performed.
+
   private bool choosing = false;
   private bool chose = false;
   private bool isAttacking = false;
-  // private const int IDLE_STATE = 0;
-  // private const int CHASE_STATE = 1;
-  // private const int ATTACK_STATE = 2;
-  // private int state = CHASE_STATE;
-
-  // private bool attacking = false;
-  // private bool deciding = false;
-  // private bool decided = true;
-  // private int direction = 0;
 
   //Collision Stuff.
   private Vector2 enemySize = Vector2.zero;
@@ -207,94 +199,9 @@ public class EnemyMovement : MonoBehaviour {
 
   //===================================================================================================================
 
-  // private void updateState(){
-
-  //   switch(state) {
-  //     case IDLE_STATE:
-  //       if(!deciding) state = CHASE_STATE;
-  //       break;
-  //     case CHASE_STATE:
-        // if(targetColl.OverlapPoint(atkPoint.position)) state = ATTACK_STATE;
-  //       else if(chooseDirection() != direction) state = IDLE_STATE;
-  //       break;
-  //     case ATTACK_STATE:
-  //       if(!targetColl.OverlapPoint(atkPoint.position)) state = CHASE_STATE;
-  //       break;
-  //   }
-  // }
-
-  //===================================================================================================================
-
-  // private void takeAction(){
-  //   switch(state) {
-  //     case IDLE_STATE:
-  //       if(!deciding) StartCoroutine("decideMovement");
-  //       break;
-  //     case CHASE_STATE:
-  //       break;
-  //     case ATTACK_STATE:
-  //       if(!attacking) StartCoroutine("attack");
-  //       break;
-  //   }
-  // }
-
-  //===================================================================================================================
-
   private void switchTarget(GameObject newTarget) {
     target = newTarget.transform;
     targetColl = newTarget.GetComponent<Collider2D>();
     targetHM = newTarget.GetComponent<HealthManager>();
   }
-
-  //===================================================================================================================
-
-  // private IEnumerator attack(){
-  //   attacking = true;
-  //   targetSpeed = 0;
-  //   print("attacking!");
-  //   yield return new WaitForSeconds(2f);
-  //   attacking = false;
-  // }
-
-  //===================================================================================================================
-
-  // private IEnumerator decideMovement(){
-  //   deciding = true;
-  //   direction = 0;
-    
-  //   print("deciding...");
-  //   yield return new WaitForSeconds(0.5f);
-
-  //   direction = chooseDirection();
-  //   targetSpeed = maxSpeed * direction;
-  //   print("decided on " + direction);
-  //   deciding = false;
-  // }
-
-  //===================================================================================================================
-
-  // private int chooseDirection() {
-  //   float distance = target.position.x - transform.position.x;
-  //   print(distance);
-  //   if(distance < 0.1f) return 0;
-  //   else return distance > 0 ? 1 : -1;
-  // }
-
-
-  // private void chooseMove() {
-  //   if(target.position.x > transform.position.x) setTargetSpeed(1);
-  //   else if(target.position.x < transform.position.x) setTargetSpeed(-1);
-  //   else setTargetSpeed(0);
-  // }
-
-  // //===================================================================================================================
-
-  // private void chase() {
-  //   float distance = target.position.x - transform.position.x;
-
-  //   if(Mathf.Abs(distance) < 0.5f) setTargetSpeed(0);
-  //   if(target.position.x > transform.position.x) setTargetSpeed(1);
-  //   else if(target.position.x < transform.position.x) setTargetSpeed(-1);
-  //   else setTargetSpeed(0);
-  // }
 }
