@@ -5,10 +5,7 @@ public class CameraMovement : MonoBehaviour {
 
   [SerializeField] private float smoothness = 3f;
   private Transform target;
-
-  //For screen shakes.
   private Animator anim;
-  // public bool shakeTemp = false;
   
   //===================================================================================================================
 
@@ -21,7 +18,6 @@ public class CameraMovement : MonoBehaviour {
 
   private void FixedUpdate(){
     follow();
-    // if(shakeTemp) shake();
   }
 
   //===================================================================================================================
@@ -34,8 +30,9 @@ public class CameraMovement : MonoBehaviour {
     else transform.parent.position = Vector3.Lerp(transform.parent.position, newPos, Time.deltaTime * smoothness);
   }
 
-  // private void shake() {
-  //   shakeTemp = false;
-  //   anim.SetTrigger("Shake");
-  // }
+  //===================================================================================================================
+
+  public void shake() {
+    anim.SetTrigger("Shake");
+  }
 }

@@ -5,10 +5,11 @@ public class PlayerMovement : MonoBehaviour {
 
   [SerializeField] private float gravity = -0.025f;
   [SerializeField] private float jumpStrength = 0.4f;
-  [SerializeField] private float speed = 0.25f;
+  [SerializeField] private float maxSpeed = 0.25f;
   [SerializeField] private float acceleration = 0.0075f;
 
   //Movement stuff.
+  private float targetSpeed = 0;
   private bool grounded = false;
   private Vector2 velocity = Vector2.zero;
   private bool facingRight = true;
@@ -37,14 +38,14 @@ public class PlayerMovement : MonoBehaviour {
 
   private void OnEnable() {
     InputManager.jumpPressed += jump;
-    InputManager.horizontalAxis += move;
+    InputManager.horizontalAxis += setTargetSpeed;
   }
 
   //===================================================================================================================
 
   private void OnDisable() {
     InputManager.jumpPressed -= jump;
-    InputManager.horizontalAxis -= move;
+    InputManager.horizontalAxis -= setTargetSpeed;
   }
 
   //===================================================================================================================
@@ -56,11 +57,13 @@ public class PlayerMovement : MonoBehaviour {
       checkVerticalCollisions();
     }
 
+    velocity.x = move();
+
     //Horizontal collision checking.
     if(velocity.x != 0) checkHorizontalCollisions();
 
     //Face the correct way.
-    if((velocity.x > 0 && !facingRight) || (velocity.x < 0) && facingRight) turnAround();
+    if((targetSpeed > 0 && !facingRight) || (targetSpeed < 0) && facingRight) turnAround();
     
     //Move the player.
     transform.Translate(velocity);
@@ -77,17 +80,16 @@ public class PlayerMovement : MonoBehaviour {
 
   //===================================================================================================================
 
-  private void move(float fraction) {
+  private float move(){
+    if(velocity.x == targetSpeed) return velocity.x;
 
-   if(velocity.x == fraction * speed) return;
-
-    //If there is no horizontal axis input, or if we are shielding, stop.
-    if(fraction == 0) {
-      if(velocity.x > 0) velocity.x = Mathf.Max(0,velocity.x - acceleration);
-      else               velocity.x = Mathf.Min(0,velocity.x + acceleration);
-    }
-    else velocity.x = Mathf.Clamp(velocity.x + acceleration * fraction, -speed, speed);
+    return (velocity.x > targetSpeed) ? Mathf.Max(targetSpeed, velocity.x - acceleration):
+                                        Mathf.Min(velocity.x + acceleration, targetSpeed);
   }
+
+  //===================================================================================================================
+
+  private void setTargetSpeed(float f) { targetSpeed = f * maxSpeed; }
 
   //===================================================================================================================
 
