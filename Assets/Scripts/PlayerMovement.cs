@@ -11,10 +11,15 @@ public class PlayerMovement : MonoBehaviour {
   //Movement stuff.
   private bool grounded = false;
   private Vector2 velocity = Vector2.zero;
+  private bool facingRight = true;
 
   //Collision Stuff.
   private Vector2 playerSize = Vector2.zero;
   private LayerMask solidMask = new LayerMask();
+
+  //Properties.
+  public Vector2 Velocity {get {return velocity;}}
+  public bool FacingRight {get {return facingRight;}}
 
 
   //===================================================================================================================
@@ -53,6 +58,9 @@ public class PlayerMovement : MonoBehaviour {
 
     //Horizontal collision checking.
     if(velocity.x != 0) checkHorizontalCollisions();
+
+    //Face the correct way.
+    if((velocity.x > 0 && !facingRight) || (velocity.x < 0) && facingRight) turnAround();
     
     //Move the player.
     transform.Translate(velocity);
@@ -109,5 +117,15 @@ public class PlayerMovement : MonoBehaviour {
       transform.Translate(Vector2.right * direction * (gap - playerSize.x/2));
       velocity.x = 0;
     }
+  }
+
+  //===================================================================================================================
+
+  private void turnAround() {
+    print("turn!");
+    facingRight = !facingRight;
+    Vector3 temp = transform.localScale;
+    temp.x *= -1;
+    transform.localScale = temp;
   }
 }
