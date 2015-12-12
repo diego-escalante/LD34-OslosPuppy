@@ -78,7 +78,10 @@ public class PlayerMovement : MonoBehaviour {
   //===================================================================================================================
 
   private void move(float fraction) {
-    if(velocity.x == fraction * speed) return;
+
+   if(velocity.x == fraction * speed) return;
+
+    //If there is no horizontal axis input, or if we are shielding, stop.
     if(fraction == 0) {
       if(velocity.x > 0) velocity.x = Mathf.Max(0,velocity.x - acceleration);
       else               velocity.x = Mathf.Min(0,velocity.x + acceleration);
@@ -122,7 +125,6 @@ public class PlayerMovement : MonoBehaviour {
   //===================================================================================================================
 
   private void turnAround() {
-    print("turn!");
     facingRight = !facingRight;
     Vector3 temp = transform.localScale;
     temp.x *= -1;

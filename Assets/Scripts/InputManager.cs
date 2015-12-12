@@ -16,11 +16,17 @@ public class InputManager : MonoBehaviour {
   //Attack input.
   public static event InputButton attackPressed;
 
+  //Shield input.
+  public static event InputButton shieldPressed;
+  public static event InputButton shieldReleased;
+
   //===================================================================================================================
 
   private void Update() {
     if(Input.GetButtonDown("Jump") && jumpPressed != null) jumpPressed();
     if(Input.GetButtonDown("Attack") && attackPressed != null) attackPressed();
+    if(Input.GetButtonDown("Shield") && shieldPressed != null) shieldPressed();
+    if(Input.GetButtonUp("Shield") && shieldReleased != null) shieldReleased();
     if(horizontalAxis != null) horizontalAxis(Input.GetAxisRaw("Horizontal"));
   }
 }
