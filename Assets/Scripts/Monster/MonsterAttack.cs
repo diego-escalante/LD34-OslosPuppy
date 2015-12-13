@@ -3,27 +3,72 @@ using System.Collections;
 
 public class MonsterAttack : MonsterBase {
 
-  // private Transform findNearestEnemy() {
+  private bool reachedEnemy = false;
+  private bool attacking = false;
+
+  //===================================================================================================================
+
+  protected override void FixedUpdate() {
     
-  //   Transform nearestEnemy = null;
-  //   float nearestDistance = Mathf.Infinity;
+    //If not attacking, pick a target, or if at the target, attack.
+    if(!attacking) {
+      if(target == null) target = findNearestEnemy();
+      if(reachedEnemy) StartCoroutine("attack");
+    }
 
-  //   //Get all the objects nearby, compare enemy distances and get the nearest one.
-  //   Collider2D[] candidates = Physics2D.OverlapCircleAll(transform.position, searchRadius);
-  //   foreach (Collider2D candidate in candidates) {
+    base.FixedUpdate();
+  }
 
-  //     if(candidate.gameObject.tag != "Enemy") continue;
+  //===================================================================================================================
 
-  //     float distance = Mathf.Abs(candidate.transform.position.x - transform.position.x);
+  private void OnDisable() { StopCoroutine("attack"); }
 
-  //     //If this is the nearest enemy so far.
-  //     if(distance < nearestDistance) {
-  //       nearestDistance = distance;
-  //       nearestEnemy = candidate.transform;
-  //     }
-  //   }
+  //===================================================================================================================
 
-  //   return nearestEnemy;
-  //   edit this edit this edit this.
-  // }
+  private IEnumerator attack() {
+    attacking = true;
+    reachedEnemy = false;
+    target = null;
+    print("attack");
+    yield return new WaitForSeconds(2f);
+    attacking = false;
+  }
+
+  //===================================================================================================================
+
+  private Transform findNearestEnemy() {
+    
+    Transform nearestEnemy = null;
+    float nearestDistance = Mathf.Infinity;
+
+    //Get all enemies, find the closest one.
+    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+    foreach(GameObject enemy in enemies){
+      float distance = Mathf.Abs(enemy.transform.position.x - transform.position.x);
+      if(distance < nearestDistance){
+        nearestDistance = distance;
+        nearestEnemy = enemy.transform;
+      }
+    }
+    return nearestEnemy;
+  }
+
+  //===================================================================================================================
+
+  protected override float calcTargetSpeed(){
+
+    //If there's nothing to move to stop.
+    if(target == null) return 0;
+
+    //If it is close enough, stop, otherwise, get the correct targetSpeed.
+    float distance = target.position.x - transform.position.x;
+    if(Mathf.Abs(distance) < distanceThreshold) {
+      reachedEnemy = true;
+      return 0;
+    }
+    else return maxSpeed * (distance > 0 ? 1 : -1);
+  }
+
+  //===================================================================================================================
+
 }
