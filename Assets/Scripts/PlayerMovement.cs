@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour {
   public Vector2 Velocity {get {return velocity;}}
   public bool FacingRight {get {return facingRight;}}
 
+  //Animation.
+  private Animator anim;
 
   //===================================================================================================================
 
@@ -32,6 +34,8 @@ public class PlayerMovement : MonoBehaviour {
 
     //Get the solid layermask for raycasting.
     solidMask = LayerMask.GetMask("Solid");
+
+    anim = GetComponent<Animator>();
   }
 
   //===================================================================================================================
@@ -62,6 +66,10 @@ public class PlayerMovement : MonoBehaviour {
     //Horizontal collision checking.
     if(velocity.x != 0) checkHorizontalCollisions();
 
+    //Animation stuff.
+    anim.SetFloat("Speed", Mathf.Abs(velocity.x));
+    anim.SetBool("Grounded", grounded);
+
     //Face the correct way.
     if((targetSpeed > 0 && !facingRight) || (targetSpeed < 0) && facingRight) turnAround();
     
@@ -75,6 +83,7 @@ public class PlayerMovement : MonoBehaviour {
     if(grounded) {
       velocity.y = jumpStrength;
       grounded = false;
+      anim.SetTrigger("Jump");
     }
   }
 

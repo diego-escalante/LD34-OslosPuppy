@@ -11,8 +11,16 @@ public class PlayerAttackBehavior : MonoBehaviour {
   private bool isShielding = false;
   private Color shieldColor;
 
+  //Animation.
+  private Animator anim;
   //Properties.
   public bool IsShielding {get {return isShielding;}}
+
+  //===================================================================================================================
+
+  private void Start() {
+    anim = GetComponent<Animator>();
+  }
 
   //===================================================================================================================
 
@@ -34,7 +42,10 @@ public class PlayerAttackBehavior : MonoBehaviour {
   //===================================================================================================================
 
   private void attack() {
-    if(!isShielding) Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+    if(!isShielding) {
+      Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+      anim.SetTrigger("Fire");
+    }
   }
 
   //===================================================================================================================
@@ -44,6 +55,7 @@ public class PlayerAttackBehavior : MonoBehaviour {
     shield = (GameObject)Instantiate(shieldPrefab, transform.position, Quaternion.identity);
     shieldSR = shield.GetComponent<SpriteRenderer>();
     shieldColor = shieldSR.color;
+    anim.SetTrigger("Cast");
     StartCoroutine("shielding");
   }
 
