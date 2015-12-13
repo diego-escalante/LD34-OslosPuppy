@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour {
   private HealthManager monsterHM;
   private HealthManager playerHM;
 
+  public const float WORLD_SIZE = 100f;
+
   //===================================================================================================================
 
   private void Start() {
