@@ -130,7 +130,7 @@ using System.Collections.Generic;
   private float move() {
     
     //Figure out which way to go.
-    if(Mathf.Abs(target.position.x - transform.position.x) < 5f) setTargetSpeed(0);
+    if(Mathf.Abs(target.position.x - transform.position.x) < 2.5f) setTargetSpeed(0);
     else setTargetSpeed(getDirection(false));
 
     //If we are already moving optimally, return early.
@@ -234,7 +234,16 @@ using System.Collections.Generic;
 
   private void chooseAction() {
     if(actions.Count > 0) actions.Pop();
-    switchTarget(GameObject.FindWithTag("Player"));
-    actions.Push(follow);
+
+    float rand = Random.value;
+
+    //Half of the time, be idle.
+    if(rand < 0.5f) switchTarget(gameObject);
+
+    //Half ot the time, follow player.
+    else {
+      switchTarget(GameObject.FindWithTag("Player"));
+      // actions.Push(follow);
+    }
   }
 }
