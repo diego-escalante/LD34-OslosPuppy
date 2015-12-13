@@ -8,7 +8,7 @@ public class FireballBehavior : MonoBehaviour {
   [SerializeField] private float lifetime = 0.25f;
   [SerializeField] private float damage = 1f;
 
-  private List<GameObject> victims = new List<GameObject>();
+  private List<Collider2D> victims = new List<Collider2D>();
 
   //Static, since we can just share this among all fireballs.
   static private PlayerMovement move;
@@ -39,18 +39,13 @@ public class FireballBehavior : MonoBehaviour {
   //===================================================================================================================
 
   private void checkHits(){
-    RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.right, speed);
 
-    foreach(RaycastHit2D hit in hits) {
+    Collider2D[] candidates = Physics2D.OverlapCircleAll(transform.position, 0.5f);
 
-      GameObject candidate = hit.collider.gameObject;
-
-      //If it is not an enemy or if we have seen this enemy before, ignore it.
-      if(candidate.tag != "Enemy" || victims.Contains(candidate)) continue;
-
-      //Remember this enemy, and damage it.
+    foreach(Collider2D candidate in candidates){
+      if(candidate.gameObject.tag != "Enemy" || victims.Contains(candidate)) continue;
       victims.Add(candidate);
-      candidate.SendMessage("modifyHealth", -damage, SendMessageOptions.DontRequireReceiver);
+      candidate.gameObject.SendMessage("modifyHealth", -damage, SendMessageOptions.DontRequireReceiver);
     }
   }
 }
