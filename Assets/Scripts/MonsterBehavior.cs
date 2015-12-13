@@ -23,8 +23,8 @@ using System.Collections.Generic;
   private delegate void Action();
   private Stack<Action> actions = new Stack<Action>();
   private Transform target;
-  private bool choosing = false;
-  private bool chose = false;
+  // private bool choosing = false;
+  // private bool chose = false;
   private float actionCooldown = 3f;
   private float elapsedTime = 0f;
 
@@ -72,7 +72,6 @@ using System.Collections.Generic;
     //Choose a new action when necessary.
     elapsedTime += Time.deltaTime;
     if(elapsedTime > actionCooldown) {
-      print("choose!");
       elapsedTime = 0;
       chooseAction();
     }
@@ -107,15 +106,12 @@ using System.Collections.Generic;
   //===================================================================================================================
 
   private void evade() {
-    print("evade");
   }
 
   private void attack() {
-    print("attack");
   }
 
   private void eat() {
-    print("eat");
   }
 
   private void follow() {
@@ -154,16 +150,16 @@ using System.Collections.Generic;
 
   //===================================================================================================================
 
-  private IEnumerator chooseDirection(){
-    choosing = true;
-    setTargetSpeed(0);
-    yield return new WaitForSeconds(0.5f);
+  // private IEnumerator chooseDirection(){
+  //   choosing = true;
+  //   setTargetSpeed(0);
+  //   yield return new WaitForSeconds(0.5f);
 
-    setTargetSpeed((float)getDirection());
+  //   setTargetSpeed((float)getDirection());
 
-    choosing = false;
-    chose = true;
-  }
+  //   choosing = false;
+  //   chose = true;
+  // }
 
   //===================================================================================================================
 
@@ -210,7 +206,6 @@ using System.Collections.Generic;
   //===================================================================================================================
 
   private void turnAround() {
-    print("wha");
     facingRight = !facingRight;
     Vector3 temp = transform.localScale;
     temp.x *= -1;

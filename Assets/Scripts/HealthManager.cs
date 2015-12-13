@@ -50,6 +50,7 @@ public class HealthManager : MonoBehaviour {
   //===================================================================================================================
 
   private IEnumerator flashColor(Color c){
+    print("flash");
     float currentTime = 0;
     float endTime = 0.25f;
 
