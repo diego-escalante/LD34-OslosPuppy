@@ -107,7 +107,8 @@ public class EnemyMovement : MonoBehaviour {
   private void checkHorizontalCollisions() {
     float distance = Mathf.Abs(velocity.x) + enemySize.x/2;
     int direction = velocity.x > 0 ? 1 : -1;
-    RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, distance, solidMask);
+    Vector3 origin = transform.position + new Vector3(0, enemySize.y/2, 0);
+    RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.right * direction, distance, solidMask);
 
     if(hit) {
       float gap = hit.distance;
