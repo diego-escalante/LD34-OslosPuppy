@@ -18,7 +18,7 @@ public class MonsterBase : MonoBehaviour {
   protected Transform target;
 
   //Animation.
-  private Animator anim;
+  protected Animator anim;
 
   //===================================================================================================================
 
