@@ -58,7 +58,7 @@ using System.Collections.Generic;
     anim = GetComponent<Animator>();
 
     //Initialize growing!
-    StartCoroutine("grow");
+    // StartCoroutine("grow");
   }
 
   //===================================================================================================================
@@ -74,6 +74,7 @@ using System.Collections.Generic;
     if(elapsedTime > actionCooldown) {
       elapsedTime = 0;
       chooseAction();
+      // StopCoroutine("grow");
     }
 
     if(velocity.x != 0) checkHorizontalCollisions();

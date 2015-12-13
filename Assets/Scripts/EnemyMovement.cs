@@ -27,12 +27,16 @@ public class EnemyMovement : MonoBehaviour {
 
   //Other.
   private Transform atkPoint;
+  private Collider2D atkColl;
   private Collider2D targetColl;
   private HealthManager targetHM;
   private Transform target;
 
   static private Transform monsterTran;
   static private Transform playerTran;
+
+  //Anim.
+  private Animator anim;
 
   //===================================================================================================================
 
@@ -51,6 +55,10 @@ public class EnemyMovement : MonoBehaviour {
 
     //Get attack point position.
     atkPoint = transform.Find("Attack Point");
+    atkColl = atkPoint.GetComponent<Collider2D>();
+
+    //get anim
+    anim = GetComponent<Animator>();
 
     //Get something to chase.
     switchTarget();
@@ -73,6 +81,9 @@ public class EnemyMovement : MonoBehaviour {
 
     //Face the correct way.
     if((targetSpeed > 0 && !facingRight) || (targetSpeed < 0) && facingRight) turnAround();
+
+    //Anim
+    anim.SetFloat("Speed", Mathf.Abs(velocity.x));
     
     //Move the enemy.
     transform.Translate(velocity);
@@ -146,6 +157,11 @@ public class EnemyMovement : MonoBehaviour {
       int actualDirection = getDirection(true);
 
       if(desiredDirection != actualDirection && actualDirection != 0) {
+        if(atkColl.IsTouching(targetColl)) {
+          actions.Pop();
+          actions.Push(attack);
+          return;
+        }
         actions.Pop();
         actions.Push(idle);
       }
@@ -156,7 +172,7 @@ public class EnemyMovement : MonoBehaviour {
 
   private void attack() {
     if(!isAttacking) StartCoroutine("attacking");
-    else if(!targetColl.OverlapPoint(atkPoint.position)) {
+    else if(!targetColl.OverlapPoint(atkPoint.position) && !atkColl.IsTouching(targetColl)) {
       actions.Pop();
       actions.Push(idle);
     }
@@ -196,9 +212,10 @@ public class EnemyMovement : MonoBehaviour {
   private IEnumerator attacking() {
     isAttacking = true;
     targetSpeed = 0;
-    print("Attacking!");
-    yield return new WaitForSeconds(1f);
-    if(targetColl.OverlapPoint(atkPoint.position)) targetHM.modifyHealth(-damage);
+    anim.SetTrigger("Attack");
+    yield return new WaitForSeconds(0.25f);
+    if(atkColl.IsTouching(targetColl)) targetHM.modifyHealth(-damage);
+    print(targetColl.gameObject.name);
     yield return new WaitForSeconds(1f);
     isAttacking = false;
   }
