@@ -23,14 +23,17 @@ using System.Collections.Generic;
   private delegate void Action();
   private Stack<Action> actions = new Stack<Action>();
   private Transform target;
-  private bool choosing = false;
-  private bool chose = false;
+  // private bool choosing = false;
+  // private bool chose = false;
   private float actionCooldown = 3f;
   private float elapsedTime = 0f;
 
   //Collision.
   private LayerMask solidMask = new LayerMask();
   private Vector2 monsterSize = Vector2.zero;
+
+  //Anim
+  private Animator anim;
 
   //===================================================================================================================
 
@@ -51,6 +54,9 @@ using System.Collections.Generic;
     switchTarget(GameObject.FindWithTag("Player"));
     actions.Push(idle);
 
+    //Animation
+    anim = GetComponent<Animator>();
+
     //Initialize growing!
     StartCoroutine("grow");
   }
@@ -66,13 +72,16 @@ using System.Collections.Generic;
     //Choose a new action when necessary.
     elapsedTime += Time.deltaTime;
     if(elapsedTime > actionCooldown) {
-      print("choose!");
       elapsedTime = 0;
       chooseAction();
     }
 
     if(velocity.x != 0) checkHorizontalCollisions();
     if((targetSpeed > 0 && !facingRight) || (targetSpeed < 0) && facingRight) turnAround();
+
+    //Animation
+    anim.SetFloat("Speed", Mathf.Abs(velocity.x));
+
     transform.Translate(velocity);
 
   }
@@ -82,7 +91,8 @@ using System.Collections.Generic;
   private void setSize(float f, bool relative=true) {
     //Increase the size of the monster.
     sizeMultiplier = relative ? sizeMultiplier + f : f;
-    transform.localScale = new Vector3(1 * sizeMultiplier, 1 * sizeMultiplier, 1);
+
+    transform.localScale = new Vector3(1 * sizeMultiplier * (transform.localScale.x >= 0 ? 1 : -1), 1 * sizeMultiplier, 1);
 
 
     float monsView = cam.WorldToViewportPoint(transform.position).y;
@@ -96,15 +106,12 @@ using System.Collections.Generic;
   //===================================================================================================================
 
   private void evade() {
-    print("evade");
   }
 
   private void attack() {
-    print("attack");
   }
 
   private void eat() {
-    print("eat");
   }
 
   private void follow() {
@@ -143,16 +150,16 @@ using System.Collections.Generic;
 
   //===================================================================================================================
 
-  private IEnumerator chooseDirection(){
-    choosing = true;
-    setTargetSpeed(0);
-    yield return new WaitForSeconds(0.5f);
+  // private IEnumerator chooseDirection(){
+  //   choosing = true;
+  //   setTargetSpeed(0);
+  //   yield return new WaitForSeconds(0.5f);
 
-    setTargetSpeed((float)getDirection());
+  //   setTargetSpeed((float)getDirection());
 
-    choosing = false;
-    chose = true;
-  }
+  //   choosing = false;
+  //   chose = true;
+  // }
 
   //===================================================================================================================
 
@@ -178,7 +185,7 @@ using System.Collections.Generic;
   private void checkHorizontalCollisions() {
     float distance = Mathf.Abs(velocity.x) + monsterSize.x/2;
     int direction = velocity.x > 0 ? 1 : -1;
-    RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, distance, solidMask);
+    RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(0,0.5f,0), Vector2.right * direction, distance, solidMask);
 
     if(hit) {
       float gap = hit.distance;

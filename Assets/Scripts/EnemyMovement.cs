@@ -31,10 +31,18 @@ public class EnemyMovement : MonoBehaviour {
   private HealthManager targetHM;
   private Transform target;
 
+  static private Transform monsterTran;
+  static private Transform playerTran;
+
   //===================================================================================================================
 
   private void Start() { 
-    //Get the height of the player.
+
+    //Get Monster and Player Transform.
+    if(monsterTran == null) monsterTran = GameObject.FindWithTag("Monster").transform;
+    if(playerTran == null) playerTran = GameObject.FindWithTag("Player").transform;
+
+    //Get the height of the enemy.
     Collider2D coll = GetComponent<BoxCollider2D>();
     enemySize = new Vector2(coll.bounds.size.x, coll.bounds.size.y);
 
@@ -45,7 +53,7 @@ public class EnemyMovement : MonoBehaviour {
     atkPoint = transform.Find("Attack Point");
 
     //Get something to chase.
-    switchTarget(GameObject.FindWithTag("Player"));
+    switchTarget();
 
     //Set initial action.
     actions.Push(idle);
@@ -118,7 +126,6 @@ public class EnemyMovement : MonoBehaviour {
   //===================================================================================================================
 
   private void idle() {
-    print("Idle");
     if(!choosing) StartCoroutine("chooseDirection");
     else if(chose) {
       chose = false;
@@ -130,7 +137,6 @@ public class EnemyMovement : MonoBehaviour {
   //===================================================================================================================
 
   private void chase(){
-    print("Chase");
     if(targetColl.OverlapPoint(atkPoint.position)) {
       actions.Pop();
       actions.Push(attack);
@@ -149,7 +155,6 @@ public class EnemyMovement : MonoBehaviour {
   //===================================================================================================================
 
   private void attack() {
-    print("Attack!");
     if(!isAttacking) StartCoroutine("attacking");
     else if(!targetColl.OverlapPoint(atkPoint.position)) {
       actions.Pop();
@@ -162,6 +167,7 @@ public class EnemyMovement : MonoBehaviour {
   private IEnumerator chooseDirection(){
     choosing = true;
     setTargetSpeed(0);
+    switchTarget();
     yield return new WaitForSeconds(0.5f);
 
     setTargetSpeed((float)getDirection());
@@ -199,9 +205,12 @@ public class EnemyMovement : MonoBehaviour {
 
   //===================================================================================================================
 
-  private void switchTarget(GameObject newTarget) {
-    target = newTarget.transform;
-    targetColl = newTarget.GetComponent<Collider2D>();
-    targetHM = newTarget.GetComponent<HealthManager>();
+  private void switchTarget() {
+    float dragonDistance = Vector2.Distance(transform.position, monsterTran.position);
+    float playerDistance = Vector2.Distance(transform.position, playerTran.position);
+
+    target = playerDistance < dragonDistance ? playerTran : monsterTran;
+    targetColl = target.GetComponent<Collider2D>();
+    targetHM = target.GetComponent<HealthManager>();
   }
 }
