@@ -7,7 +7,8 @@ public class MonsterBase : MonoBehaviour {
   public float maxSpeed = 0.05f;
   public float acceleration = 0.01f;
   private Vector2 velocity = Vector2.zero;
-  private bool facingRight = true;
+  protected bool facingRight = true;
+  private Transform psysTran;
 
   //Collision.
   private LayerMask solidMask = new LayerMask();
@@ -27,6 +28,9 @@ public class MonsterBase : MonoBehaviour {
     //Set up collision stuff.
     coll = GetComponent<BoxCollider2D>();
     solidMask = LayerMask.GetMask("Solid");
+
+    //Get particle system transform.
+    psysTran = transform.Find("Particle System");
 
     //Set up animation stuff.
     anim = GetComponent<Animator>();
@@ -73,6 +77,10 @@ public class MonsterBase : MonoBehaviour {
     Vector3 temp = transform.localScale;
     temp.x *= -1;
     transform.localScale = temp;
+
+    Vector3 psysAngles = psysTran.eulerAngles;
+    psysAngles.y += 180;
+    psysTran.eulerAngles = psysAngles;
   }
 
   //===================================================================================================================

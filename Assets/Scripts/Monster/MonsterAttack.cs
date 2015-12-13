@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class MonsterAttack : MonsterBase {
 
   public float damage = 3f;
+  private float range = 3f;
 
   private bool reachedEnemy = false;
   private bool attacking = false;
@@ -56,8 +57,13 @@ public class MonsterAttack : MonsterBase {
       GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
       foreach(GameObject enemy in enemies){
         if(memory.Contains(enemy)) continue;
-        enemy.GetComponent<HealthManager>().modifyHealth(-damage);
-        memory.Add(enemy);
+        float distance = enemy.transform.position.x - transform.position.x;
+        
+        if((facingRight && 0 <= distance && distance <= range) ||
+          (!facingRight && -range <= distance && distance <= 0)) {
+          enemy.GetComponent<HealthManager>().modifyHealth(-damage);
+          memory.Add(enemy);
+        }
       }
 
       elapsedTime += Time.deltaTime;

@@ -22,7 +22,14 @@ public class MonsterEat : MonsterBase {
 
   //===================================================================================================================
 
+  private void onEnable() {
+    target = findNearestFood();
+  }
+
+  //===================================================================================================================
+
   protected override void FixedUpdate() {
+    print(reachedFood);
     
     //If not eating, pick a target, or if at the target, eat.
     if(!eating) {
@@ -40,6 +47,7 @@ public class MonsterEat : MonsterBase {
   //===================================================================================================================
 
   private IEnumerator eat() {
+    print("eat");
     eating = true;
     reachedFood = false;
     anim.SetTrigger("StartEating");
