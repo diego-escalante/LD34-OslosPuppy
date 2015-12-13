@@ -215,7 +215,7 @@ public class EnemyMovement : MonoBehaviour {
     anim.SetTrigger("Attack");
     yield return new WaitForSeconds(0.25f);
     if(atkColl.IsTouching(targetColl)) targetHM.modifyHealth(-damage);
-    print(targetColl.gameObject.name);
+    switchTarget();
     yield return new WaitForSeconds(1f);
     isAttacking = false;
   }
@@ -223,10 +223,14 @@ public class EnemyMovement : MonoBehaviour {
   //===================================================================================================================
 
   private void switchTarget() {
-    float dragonDistance = Vector2.Distance(transform.position, monsterTran.position);
-    float playerDistance = Vector2.Distance(transform.position, playerTran.position);
+    if(!playerTran.GetComponent<HealthManager>().enabled) target = monsterTran;
+    else if(!monsterTran.GetComponent<HealthManager>().enabled) target = playerTran;
+    else {
+      float dragonDistance = Vector2.Distance(transform.position, monsterTran.position);
+      float playerDistance = Vector2.Distance(transform.position, playerTran.position);
+      target = playerDistance < dragonDistance ? playerTran : monsterTran;      
+    }
 
-    target = playerDistance < dragonDistance ? playerTran : monsterTran;
     targetColl = target.GetComponent<Collider2D>();
     targetHM = target.GetComponent<HealthManager>();
   }

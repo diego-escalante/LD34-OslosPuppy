@@ -12,6 +12,7 @@ public class HealthManager : MonoBehaviour {
 
   private bool isPlayer = false;
   private PlayerAttackBehavior playerAtk;
+  private Animator anim;
 
   //===================================================================================================================
 
@@ -19,6 +20,7 @@ public class HealthManager : MonoBehaviour {
     currentHealth = maxHealth;
     sr = GetComponent<SpriteRenderer>();
     originalColor = sr.color;
+    anim = GetComponent<Animator>();
 
     if(gameObject.tag == "Player") {
       isPlayer = true;
@@ -29,6 +31,7 @@ public class HealthManager : MonoBehaviour {
   //===================================================================================================================
 
   public void modifyHealth(float amount) {
+    if(!this.enabled) return;
     if(isPlayer && playerAtk.IsShielding) {
       playerAtk.block();
       return;
@@ -43,8 +46,22 @@ public class HealthManager : MonoBehaviour {
   //===================================================================================================================
 
   private void death() {
-    if(isPlayer) SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Restart.
-    Destroy(gameObject);
+    anim.SetTrigger("Death");
+    
+    if(gameObject.tag == "Enemy") {
+      GetComponent<EnemyMovement>().enabled = false;
+      gameObject.tag = "Food";
+    }
+
+    else if(gameObject.tag == "Monster") 
+      GetComponent<MonsterBehavior>().enabled = false;
+
+    else if(gameObject.tag == "Player") {
+      GetComponent<PlayerMovement>().enabled = false;
+      GetComponent<PlayerAttackBehavior>().enabled = false;
+    }
+    
+    this.enabled = false;
   }
 
   //===================================================================================================================
