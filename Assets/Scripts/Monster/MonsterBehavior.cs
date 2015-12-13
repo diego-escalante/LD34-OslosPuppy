@@ -12,7 +12,7 @@ using System.Collections.Generic;
   private Vector2 velocity = Vector2.zero;
   private bool facingRight = true;
   private float sizeMultiplier = 1f;
-  private float growthDelta = 0.0005f;
+  private float growthDelta = 0.0001f;
 
   //Camera scaling stuff.
   private float camSize;
@@ -58,7 +58,7 @@ using System.Collections.Generic;
     anim = GetComponent<Animator>();
 
     //Initialize growing!
-    StartCoroutine("grow");
+    // StartCoroutine("grow");
   }
 
   //===================================================================================================================
@@ -74,6 +74,7 @@ using System.Collections.Generic;
     if(elapsedTime > actionCooldown) {
       elapsedTime = 0;
       chooseAction();
+      // StopCoroutine("grow");
     }
 
     if(velocity.x != 0) checkHorizontalCollisions();

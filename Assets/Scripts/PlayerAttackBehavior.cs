@@ -11,6 +11,8 @@ public class PlayerAttackBehavior : MonoBehaviour {
   private bool isShielding = false;
   private Color shieldColor;
 
+  private Transform atkPoint;
+
   //Animation.
   private Animator anim;
   //Properties.
@@ -20,6 +22,7 @@ public class PlayerAttackBehavior : MonoBehaviour {
 
   private void Start() {
     anim = GetComponent<Animator>();
+    atkPoint = transform.Find("Attack Point");
   }
 
   //===================================================================================================================
@@ -43,7 +46,7 @@ public class PlayerAttackBehavior : MonoBehaviour {
 
   private void attack() {
     if(!isShielding) {
-      Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+      Instantiate(fireballPrefab, atkPoint.position, Quaternion.identity);
       anim.SetTrigger("Fire");
     }
   }
