@@ -32,6 +32,9 @@ using System.Collections.Generic;
   private LayerMask solidMask = new LayerMask();
   private Vector2 monsterSize = Vector2.zero;
 
+  //Anim
+  private Animator anim;
+
   //===================================================================================================================
 
   private void Start() {
@@ -50,6 +53,9 @@ using System.Collections.Generic;
     //Set initial action.
     switchTarget(GameObject.FindWithTag("Player"));
     actions.Push(idle);
+
+    //Animation
+    anim = GetComponent<Animator>();
 
     //Initialize growing!
     StartCoroutine("grow");
@@ -73,6 +79,10 @@ using System.Collections.Generic;
 
     if(velocity.x != 0) checkHorizontalCollisions();
     if((targetSpeed > 0 && !facingRight) || (targetSpeed < 0) && facingRight) turnAround();
+
+    //Animation
+    anim.SetFloat("Speed", Mathf.Abs(velocity.x));
+
     transform.Translate(velocity);
 
   }
@@ -82,7 +92,8 @@ using System.Collections.Generic;
   private void setSize(float f, bool relative=true) {
     //Increase the size of the monster.
     sizeMultiplier = relative ? sizeMultiplier + f : f;
-    transform.localScale = new Vector3(1 * sizeMultiplier, 1 * sizeMultiplier, 1);
+
+    transform.localScale = new Vector3(1 * sizeMultiplier * (transform.localScale.x >= 0 ? 1 : -1), 1 * sizeMultiplier, 1);
 
 
     float monsView = cam.WorldToViewportPoint(transform.position).y;
@@ -178,7 +189,7 @@ using System.Collections.Generic;
   private void checkHorizontalCollisions() {
     float distance = Mathf.Abs(velocity.x) + monsterSize.x/2;
     int direction = velocity.x > 0 ? 1 : -1;
-    RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, distance, solidMask);
+    RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(0,0.5f,0), Vector2.right * direction, distance, solidMask);
 
     if(hit) {
       float gap = hit.distance;
@@ -199,6 +210,7 @@ using System.Collections.Generic;
   //===================================================================================================================
 
   private void turnAround() {
+    print("wha");
     facingRight = !facingRight;
     Vector3 temp = transform.localScale;
     temp.x *= -1;
