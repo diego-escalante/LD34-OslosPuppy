@@ -62,6 +62,7 @@ public class MonsterAttack : MonsterBase {
 
     yield return new WaitForSeconds(elapsedTime);
     while(elapsedTime < fireDuration) {
+      facingRight = transform.localScale.x > 0;
 
       GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
       foreach(GameObject enemy in enemies){
