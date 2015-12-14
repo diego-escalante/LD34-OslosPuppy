@@ -71,15 +71,18 @@ public class MonsterBase : MonoBehaviour {
 
   //===================================================================================================================
 
-  private void turnAround() {
+  private void turnAround(float targetSpeed) {
     //Flip the x-scale.
-    facingRight = !facingRight;
+    // facingRight = !facingRight;
+
     Vector3 temp = transform.localScale;
+    if(Mathf.Sign(temp.x) == Mathf.Sign(targetSpeed)) return;
+
     temp.x *= -1;
     transform.localScale = temp;
 
     Vector3 psysAngles = psysTran.eulerAngles;
-    psysAngles.y += 180;
+    psysAngles.y = temp.x > 0 ? 0 : 180;
     psysTran.eulerAngles = psysAngles;
   }
 
@@ -90,7 +93,7 @@ public class MonsterBase : MonoBehaviour {
     float targetSpeed = calcTargetSpeed();
 
     //Face the correct way.
-    if((targetSpeed > 0 && !facingRight) || (targetSpeed < 0) && facingRight) turnAround();
+    if(targetSpeed != 0) turnAround(targetSpeed);
 
     //Approach target velocity.
     if(velocity.x != targetSpeed) {
@@ -111,5 +114,4 @@ public class MonsterBase : MonoBehaviour {
     if(Mathf.Abs(distance) < distanceThreshold) return 0;
     else return maxSpeed * (distance > 0 ? 1 : -1);
   }
-
 }

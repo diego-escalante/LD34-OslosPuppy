@@ -48,7 +48,7 @@ public class MonsterAttack : MonsterBase {
     target = null;
     
     psys.Play();
-    float elapsedTime = 0.2f;
+    float elapsedTime = 1f;
     List<GameObject> memory = new List<GameObject>();
 
     yield return new WaitForSeconds(elapsedTime);
