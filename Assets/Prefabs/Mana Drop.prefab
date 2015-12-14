@@ -10,7 +10,8 @@ GameObject:
   - 4: {fileID: 468258}
   - 198: {fileID: 19886672}
   - 199: {fileID: 19945218}
-  - 114: {fileID: 11459702}
+  - 61: {fileID: 6139372}
+  - 114: {fileID: 11463466}
   m_Layer: 0
   m_Name: Mana Drop
   m_TagString: Untagged
@@ -24,13 +25,27 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188786}
-  m_LocalRotation: {x: 0, y: 0, z: 0.6755903, w: 0.73727727}
-  m_LocalPosition: {x: -5.611, y: 0.55, z: -1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071067}
+  m_LocalPosition: {x: -3.5884356, y: 0.666, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11459702
+--- !u!61 &6139372
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188786}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0.39822298, y: 0.025849767}
+  serializedVersion: 2
+  m_Size: {x: 1.2097795, y: 0.46855593}
+--- !u!114 &11463466
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -38,7 +53,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 188786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3e92ce64d6c90b479eec8fe3560a375, type: 3}
+  m_Script: {fileID: 11500000, guid: d4e59176cb8d0c047b20952888373476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!198 &19886672

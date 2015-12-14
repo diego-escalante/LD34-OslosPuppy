@@ -19,7 +19,7 @@ public class PlayerAttackBehavior : MonoBehaviour {
   //Properties.
   public bool IsShielding {get {return isShielding;}}
 
-  private float manaAmount = 100;
+  public float manaAmount = 100;
   private float timeperpoint = 0.5f;
   // private float chargeDuration = 30f;
   private Image manaImg;
