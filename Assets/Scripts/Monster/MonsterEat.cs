@@ -23,7 +23,9 @@ public class MonsterEat : MonsterBase {
   //===================================================================================================================
 
   private void OnEnable() {
-    // target = findNearestFood();
+    target = findNearestFood();
+    reachedFood = false;
+    eating = false;
   }
 
   //===================================================================================================================
@@ -39,7 +41,10 @@ public class MonsterEat : MonsterBase {
 
   //===================================================================================================================
 
-  private void OnDisable() { StopCoroutine("eat"); }
+  private void OnDisable() { 
+    StopCoroutine("eat"); 
+    if(eating && target != null) Destroy(target.gameObject);
+  }
 
   //===================================================================================================================
 

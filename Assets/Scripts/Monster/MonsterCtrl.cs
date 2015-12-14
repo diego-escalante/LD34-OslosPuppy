@@ -25,6 +25,7 @@ public class MonsterCtrl : MonoBehaviour {
   private Camera cam;
   private Transform camTrans;
   private float camSize;
+  private float camSizeMultiplier;
 
   //Components.
   private HealthManager healthMgmt;
@@ -37,6 +38,8 @@ public class MonsterCtrl : MonoBehaviour {
   public AnimatorController animCtrl3;
   public AnimatorController animCtrl4;
 
+  public GameObject poof;
+
   //===================================================================================================================
 
   private void Start() {
@@ -48,13 +51,13 @@ public class MonsterCtrl : MonoBehaviour {
     cam = Camera.main;
     camTrans = cam.transform.parent;
     camSize = Camera.main.orthographicSize;
+    camSizeMultiplier = size;
 
     //Get components.
     healthMgmt = GetComponent<HealthManager>();
     
     currentAction = GetComponent<MonsterIdle>();
     StartCoroutine("chargeAttack");
-    evolve();
   }
 
   //===================================================================================================================
@@ -67,6 +70,8 @@ public class MonsterCtrl : MonoBehaviour {
 
     brain();
 
+    if(currentTier == 1 && size >= 3) evolve();
+
   }
 
   //===================================================================================================================
@@ -74,11 +79,12 @@ public class MonsterCtrl : MonoBehaviour {
   public void grow(float amount) {
     //Increase the size of the monster.
     size += amount;
+    camSizeMultiplier += amount;
     transform.localScale = new Vector3(1 * size * (transform.localScale.x >= 0 ? 1 : -1), 1 * size, 1);
 
     //Scale the camera.
     float monsView = cam.WorldToViewportPoint(transform.position).y;
-    cam.orthographicSize = camSize * size;
+    cam.orthographicSize = camSize * camSizeMultiplier;
     float deltaWorldPos = cam.ViewportToWorldPoint(new Vector3(0, monsView, cam.nearClipPlane)).y - transform.position.y;
     camTrans.Translate(new Vector3(0, -deltaWorldPos, 0));
   }
@@ -161,6 +167,8 @@ public class MonsterCtrl : MonoBehaviour {
   private void evolve(){
     currentTier++;
 
+    switchAction("MonsterIdle");
+    Instantiate(poof, transform.position + new Vector3(0, coll.size.y/2,0), Quaternion.identity);
     switch(currentTier){
       case 2:
         anim.runtimeAnimatorController = animCtrl2;
@@ -174,5 +182,13 @@ public class MonsterCtrl : MonoBehaviour {
         break;
     }
 
+    Invoke("reenable", 1f);
+    this.enabled = false;
+    size = 1;
+
+  }
+
+  private void reenable(){
+    this.enabled = true;
   }
 }
