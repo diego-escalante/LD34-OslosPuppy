@@ -126,6 +126,7 @@ MonoBehaviour:
   totalGrowth: 0.1
   duration: 1
   lPoof: {fileID: 148062, guid: 66186a26e2edc574096f779607c51829, type: 2}
+  manaDrop: {fileID: 188786, guid: 4c450cca139055449aa48d5a61669ef2, type: 2}
 --- !u!114 &11431070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1752,6 +1753,10 @@ Prefab:
       propertyPath: atkChargeDuration
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: manaDrop
+      value: 
+      objectReference: {fileID: 188786, guid: 4c450cca139055449aa48d5a61669ef2, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147962}

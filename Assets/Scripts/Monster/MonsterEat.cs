@@ -11,6 +11,7 @@ public class MonsterEat : MonsterBase {
 
   private MonsterCtrl ctrl;
   public GameObject lPoof;
+  public GameObject manaDrop;
 
   //===================================================================================================================
 
@@ -74,7 +75,10 @@ public class MonsterEat : MonsterBase {
     ctrl.grow(totalGrowth - elapsedGrowth);
 
     anim.SetTrigger("StopEating");
-    if(target != null) Destroy(target.gameObject);
+    if(target != null) {
+      if(Random.value > 0.7f) Instantiate(manaDrop, target.position, Quaternion.Euler(0,0,85));
+      Destroy(target.gameObject);
+    }
     eating = false;
   }
 

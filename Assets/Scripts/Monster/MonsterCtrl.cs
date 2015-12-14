@@ -145,7 +145,8 @@ public class MonsterCtrl : MonoBehaviour {
 
   private void evolve(){
       Instantiate(poof, transform.position + new Vector3(0, coll.size.y/2,0), Quaternion.identity);
-      Instantiate(nextMonster, transform.position, Quaternion.identity);
+      MonsterCtrl newCtrl = ((GameObject)Instantiate(nextMonster, transform.position, Quaternion.identity)).GetComponent<MonsterCtrl>();
+      newCtrl.atkChargeElapsed = atkChargeElapsed;
       Destroy(gameObject);
     }
 }

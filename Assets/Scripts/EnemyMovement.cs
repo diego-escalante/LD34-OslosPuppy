@@ -214,7 +214,13 @@ public class EnemyMovement : MonoBehaviour {
   //===================================================================================================================
 
   private int getDirection(bool actual=false){
+    if(target == null) {
+      target = GameObject.FindWithTag("Monster").transform;
+      targetColl = target.GetComponent<Collider2D>(); 
+      targetHM = target.GetComponent<HealthManager>();
+    }
     if(!actual) {
+
       if(target.position.x - transform.position.x > 0) return 1;
       else if(target.position.x - transform.position.x < 0) return -1;
       else return 0;
@@ -234,7 +240,11 @@ public class EnemyMovement : MonoBehaviour {
     anim.SetTrigger("Attack");
     yield return new WaitForSeconds(0.25f);
     // if(atkColl.IsTouching(targetColl)) targetHM.modifyHealth(-damage);
-
+    if(target == null) {
+      target = GameObject.FindWithTag("Monster").transform;
+      targetColl = target.GetComponent<Collider2D>(); 
+      targetHM = target.GetComponent<HealthManager>();
+    }
     float distance = target.transform.position.x - transform.position.x;
     if(Mathf.Abs(distance) < range) 
     // if((facingRight && 0 <= distance && distance <= range) || (!facingRight && -range <= distance && distance <= 0))
