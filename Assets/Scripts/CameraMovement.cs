@@ -17,6 +17,10 @@ public class CameraMovement : MonoBehaviour {
   //===================================================================================================================
 
   private void FixedUpdate(){
+    if(target == null) {
+      target = GameObject.FindWithTag("Monster").transform;
+      transform.parent.position = new Vector3(target.position.x, transform.parent.position.y, transform.parent.position.z);
+    }
     follow();
   }
 

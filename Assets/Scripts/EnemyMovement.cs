@@ -38,6 +38,8 @@ public class EnemyMovement : MonoBehaviour {
   //Anim.
   private Animator anim;
 
+  private float range = 1f;
+
   //===================================================================================================================
 
   private void Start() { 
@@ -65,6 +67,13 @@ public class EnemyMovement : MonoBehaviour {
 
     //Set initial action.
     actions.Push(idle);
+  }
+
+  //===================================================================================================================
+
+  public void updateMonster() {
+    if(monsterTran == null) monsterTran = GameObject.FindWithTag("Monster").transform;
+    switchTarget();
   }
 
   //===================================================================================================================
@@ -215,7 +224,13 @@ public class EnemyMovement : MonoBehaviour {
     targetSpeed = 0;
     anim.SetTrigger("Attack");
     yield return new WaitForSeconds(0.25f);
-    if(atkColl.IsTouching(targetColl)) targetHM.modifyHealth(-damage);
+    // if(atkColl.IsTouching(targetColl)) targetHM.modifyHealth(-damage);
+
+    float distance = target.transform.position.x - transform.position.x;
+    if((facingRight && 0 <= distance && distance <= range) || (!facingRight && -range <= distance && distance <= 0))
+      targetHM.modifyHealth(-damage);
+
+
     switchTarget();
     yield return new WaitForSeconds(1f);
     isAttacking = false;
@@ -224,6 +239,7 @@ public class EnemyMovement : MonoBehaviour {
   //===================================================================================================================
 
   private void switchTarget() {
+
     if(!playerTran.GetComponent<HealthManager>().enabled) target = monsterTran;
     else if(!monsterTran.GetComponent<HealthManager>().enabled) target = playerTran;
     else {

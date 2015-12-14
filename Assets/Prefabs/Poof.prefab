@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 475324}
   - 198: {fileID: 19843558}
   - 199: {fileID: 19994602}
+  - 114: {fileID: 11421708}
   m_Layer: 0
   m_Name: Poof
   m_TagString: Untagged
@@ -29,6 +30,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11421708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e92ce64d6c90b479eec8fe3560a375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &19843558
 ParticleSystem:
   m_ObjectHideFlags: 1

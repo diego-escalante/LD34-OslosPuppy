@@ -42,7 +42,8 @@ public class MonsterEat : MonsterBase {
   //===================================================================================================================
 
   private void OnDisable() { 
-    StopCoroutine("eat"); 
+    StopCoroutine("eat");
+    if(reachedFood) anim.SetTrigger("StopEating");
     if(eating && target != null) Destroy(target.gameObject);
   }
 
@@ -50,8 +51,8 @@ public class MonsterEat : MonsterBase {
 
   private IEnumerator eat() {
     eating = true;
-    reachedFood = false;
     anim.SetTrigger("StartEating");
+    reachedFood = false;
 
     //Eat.
     float elapsedTime = 0;

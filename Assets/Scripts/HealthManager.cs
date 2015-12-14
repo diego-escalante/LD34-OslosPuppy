@@ -54,7 +54,7 @@ public class HealthManager : MonoBehaviour {
     }
 
     else if(gameObject.tag == "Monster") 
-      GetComponent<MonsterBehavior>().enabled = false;
+      GetComponent<MonsterBehavior>().enabled = false; //YEAH YEAH. I'll get to it soon.
 
     else if(gameObject.tag == "Player") {
       GetComponent<PlayerMovement>().enabled = false;

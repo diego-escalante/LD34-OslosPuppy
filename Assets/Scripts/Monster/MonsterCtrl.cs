@@ -4,17 +4,22 @@ using UnityEditor.Animations;
 
 public class MonsterCtrl : MonoBehaviour {
 
+  public GameObject nextMonster;
+  public float sizeGoal;
+  public GameObject poof;
+
+
   private float size = 1;
-  private int currentTier = 1;
+  // public int currentTier = 1;
 
   //Action stuff.
   private MonsterBase currentAction;
   
   private float hp;
-  public float atkCharge = 0f;
+  [HideInInspector] public float atkCharge = 0f;
   private float foodDistance;
 
-  private float atkChargeSpeed = 2f;
+  private float atkChargeSpeed = 0.25f;
   private float hpThreshold = 0.8f;
   private float foodDistanceMax = 10f;
 
@@ -32,20 +37,20 @@ public class MonsterCtrl : MonoBehaviour {
   private BoxCollider2D coll;
 
   //Animation.
-  private Animator anim;
-  public AnimatorController animCtrl1;
-  public AnimatorController animCtrl2;
-  public AnimatorController animCtrl3;
-  public AnimatorController animCtrl4;
-
-  public GameObject poof;
+  // private Animator anim;
+  // public AnimatorController animCtrl1;
+  // public AnimatorController animCtrl2;
+  // public AnimatorController animCtrl3;
+  // public AnimatorController animCtrl4;
+  // private Transform psys;
 
   //===================================================================================================================
 
   private void Start() {
 
-    anim = GetComponent<Animator>();
+    // anim = GetComponent<Animator>();
     coll = GetComponent<BoxCollider2D>();
+    // psys = transform.Find("Particle System");
 
     //Get camera stuff.
     cam = Camera.main;
@@ -66,11 +71,10 @@ public class MonsterCtrl : MonoBehaviour {
     updateHP();
     updateFoodDistance();
     updateEnemyDistance();
-    //updateAttack
 
     brain();
 
-    if(currentTier == 1 && size >= 3) evolve();
+    if(size >= sizeGoal) evolve();
 
   }
 
@@ -111,7 +115,7 @@ public class MonsterCtrl : MonoBehaviour {
 
   private void brain(){
     if(atkCharge == 1) switchAction("MonsterAttack");
-    else if(hp < hpThreshold && nearestEnemy < nearestEnemyThreshold) switchAction("MonsterEvade");
+    // else if(hp < hpThreshold && nearestEnemy < nearestEnemyThreshold) switchAction("MonsterEvade");
     else if(foodDistance < foodDistanceMax) switchAction("MonsterEat");
     else {
       //Idle, follow, roam.
@@ -122,9 +126,7 @@ public class MonsterCtrl : MonoBehaviour {
 
   //===================================================================================================================
 
-  private void updateHP(){
-    hp = healthMgmt.getHealth();
-  }
+  private void updateHP(){ hp = healthMgmt.getHealth(); }
 
   //===================================================================================================================
 
@@ -165,30 +167,37 @@ public class MonsterCtrl : MonoBehaviour {
   //===================================================================================================================
 
   private void evolve(){
-    currentTier++;
-
-    switchAction("MonsterIdle");
-    Instantiate(poof, transform.position + new Vector3(0, coll.size.y/2,0), Quaternion.identity);
-    switch(currentTier){
-      case 2:
-        anim.runtimeAnimatorController = animCtrl2;
-        transform.localScale = Vector3.one;
-        coll.size = new Vector2(1.5f, 2);
-        coll.offset = new Vector2(0, 1);
-        break;
-      case 3:
-        break;
-      case 4:
-        break;
+      Instantiate(poof, transform.position + new Vector3(0, coll.size.y/2,0), Quaternion.identity);
+      /*GameObject newMonster = (GameObject)*/Instantiate(nextMonster, transform.position, Quaternion.identity);
+      Destroy(gameObject);
+      GameObject.FindWithTag("Enemy").GetComponent<EnemyMovement>().updateMonster();
     }
 
-    Invoke("reenable", 1f);
-    this.enabled = false;
-    size = 1;
+  //   switchAction("MonsterIdle");
+  //   Instantiate(poof, transform.position + new Vector3(0, coll.size.y/2,0), Quaternion.identity);
+  //   switch(currentTier){
+  //     case 2:
+  //       anim.runtimeAnimatorController = animCtrl2;
+  //       transform.localScale = Vector3.one;
+  //       coll.size = new Vector2(1.5f, 2);
+  //       coll.offset = new Vector2(0, 1);
+  //       psys.localPosition = new Vector3(0.6f, 0.9f, 0);
+  //       atkChargeSpeed = 1f;
+  //       hpThreshold = 0.5f;
+  //       break;
+  //     case 3:
+  //       break;
+  //     case 4:
+  //       break;
+  //   }
 
-  }
+  //   Invoke("reenable", 1f);
+  //   this.enabled = false;
+  //   size = 1;
 
-  private void reenable(){
-    this.enabled = true;
-  }
+  // }
+
+  // private void reenable(){
+  //   this.enabled = true;
+  // }
 }
