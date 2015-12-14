@@ -76,4 +76,10 @@ public class HealthManager : MonoBehaviour {
       yield return new WaitForFixedUpdate();
     }
   }
+
+  //===================================================================================================================
+
+  public float getHealth(){
+    return currentHealth/maxHealth;
+  }
 }
