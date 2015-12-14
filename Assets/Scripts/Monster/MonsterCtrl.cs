@@ -1,20 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor.Animations;
 
 public class MonsterCtrl : MonoBehaviour {
 
   private float size = 1;
+  private int currentTier = 1;
 
   //Action stuff.
   private MonsterBase currentAction;
   
   private float hp;
-  private float atkCharge;
+  public float atkCharge = 0f;
   private float foodDistance;
 
-  private float atkChargeSpeed = 1f;
+  private float atkChargeSpeed = 2f;
   private float hpThreshold = 0.8f;
   private float foodDistanceMax = 10f;
+
+  private float nearestEnemy;
+  private float nearestEnemyThreshold = 10f;
 
   //Camera scaling stuff.
   private Camera cam;
@@ -24,9 +29,19 @@ public class MonsterCtrl : MonoBehaviour {
   //Components.
   private HealthManager healthMgmt;
 
+  //Animation.
+  private Animator anim;
+  public AnimatorController animCtrl1;
+  public AnimatorController animCtrl2;
+  public AnimatorController animCtrl3;
+  public AnimatorController animCtrl4;
+
   //===================================================================================================================
 
   private void Start() {
+
+    anim = GetComponent<Animator>();
+
     //Get camera stuff.
     cam = Camera.main;
     camTrans = cam.transform.parent;
@@ -36,6 +51,8 @@ public class MonsterCtrl : MonoBehaviour {
     healthMgmt = GetComponent<HealthManager>();
     
     currentAction = GetComponent<MonsterIdle>();
+    StartCoroutine("chargeAttack");
+    evolve();
   }
 
   //===================================================================================================================
@@ -43,6 +60,7 @@ public class MonsterCtrl : MonoBehaviour {
   private void Update() {
     updateHP();
     updateFoodDistance();
+    updateEnemyDistance();
     //updateAttack
 
     brain();
@@ -85,7 +103,7 @@ public class MonsterCtrl : MonoBehaviour {
 
   private void brain(){
     if(atkCharge == 1) switchAction("MonsterAttack");
-    else if(hp < hpThreshold) switchAction("MonsterEvade");
+    else if(hp < hpThreshold && nearestEnemy < nearestEnemyThreshold) switchAction("MonsterEvade");
     else if(foodDistance < foodDistanceMax) switchAction("MonsterEat");
     else {
       //Idle, follow, roam.
@@ -104,7 +122,10 @@ public class MonsterCtrl : MonoBehaviour {
 
   private IEnumerator chargeAttack() {
     while(true) {
-      if(atkCharge < 1) atkCharge += 0.01f;
+      if(atkCharge < 1) {
+        atkCharge += 0.01f;
+        atkCharge = Mathf.Min(atkCharge, 1);
+      }
       yield return new WaitForSeconds(atkChargeSpeed);
     }
   }
@@ -119,5 +140,35 @@ public class MonsterCtrl : MonoBehaviour {
       if(distance < minDistance) minDistance = distance;
     }
     foodDistance = minDistance;
+  }
+
+  //===================================================================================================================
+
+  private void updateEnemyDistance() {
+    float minDistance = Mathf.Infinity;
+    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+    foreach(GameObject enemy in enemies) {
+      float distance = Mathf.Abs(enemy.transform.position.x - transform.position.x);
+      if(distance < minDistance) minDistance = distance;
+    }
+    nearestEnemy = minDistance;    
+  }
+
+  //===================================================================================================================
+
+  private void evolve(){
+    currentTier++;
+
+    switch(currentTier){
+      case 2:
+        anim.runtimeAnimatorController = animCtrl2;
+        transform.localScale = Vector3.one;
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+    }
+
   }
 }
