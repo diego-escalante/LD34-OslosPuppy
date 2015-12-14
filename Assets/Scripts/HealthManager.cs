@@ -51,6 +51,7 @@ public class HealthManager : MonoBehaviour {
     if(gameObject.tag == "Enemy") {
       GetComponent<EnemyMovement>().enabled = false;
       gameObject.tag = "Food";
+      Destroy(gameObject, 5f);
     }
 
     else if(gameObject.tag == "Monster") 

@@ -32,21 +32,21 @@ public class EnemyMovement : MonoBehaviour {
   private HealthManager targetHM;
   private Transform target;
 
-  static private Transform monsterTran;
-  static private Transform playerTran;
+  // static private Transform monsterTran;
+  // static private Transform playerTran;
 
   //Anim.
   private Animator anim;
 
-  private float range = 1f;
+  private float range = 2f;
 
   //===================================================================================================================
 
   private void Start() { 
 
     //Get Monster and Player Transform.
-    if(monsterTran == null) monsterTran = GameObject.FindWithTag("Monster").transform;
-    if(playerTran == null) playerTran = GameObject.FindWithTag("Player").transform;
+    // if(monsterTran == null) monsterTran = GameObject.FindWithTag("Monster").transform;
+    // if(playerTran == null) playerTran = GameObject.FindWithTag("Player").transform;
 
     //Get the height of the enemy.
     Collider2D coll = GetComponent<BoxCollider2D>();
@@ -63,7 +63,7 @@ public class EnemyMovement : MonoBehaviour {
     anim = GetComponent<Animator>();
 
     //Get something to chase.
-    switchTarget();
+    // switchTarget();
 
     //Set initial action.
     actions.Push(idle);
@@ -71,14 +71,23 @@ public class EnemyMovement : MonoBehaviour {
 
   //===================================================================================================================
 
-  public void updateMonster() {
-    if(monsterTran == null) monsterTran = GameObject.FindWithTag("Monster").transform;
-    switchTarget();
-  }
+  // public void updateMonster() {
+  //   if(monsterTran == null) {
+  //     monsterTran = GameObject.FindWithTag("Monster").transform;
+
+  //   }
+  //   switchTarget();
+  // }
 
   //===================================================================================================================
 
   private void FixedUpdate() {
+
+    if(target == null) {
+      target = GameObject.FindWithTag("Monster").transform;
+      targetColl = target.GetComponent<Collider2D>(); 
+      targetHM = target.GetComponent<HealthManager>();
+    }
 
     //Take current action.
     // updateState();
@@ -193,7 +202,7 @@ public class EnemyMovement : MonoBehaviour {
   private IEnumerator chooseDirection(){
     choosing = true;
     setTargetSpeed(0);
-    switchTarget();
+    // switchTarget();
     yield return new WaitForSeconds(0.5f);
 
     setTargetSpeed((float)getDirection());
@@ -227,28 +236,29 @@ public class EnemyMovement : MonoBehaviour {
     // if(atkColl.IsTouching(targetColl)) targetHM.modifyHealth(-damage);
 
     float distance = target.transform.position.x - transform.position.x;
-    if((facingRight && 0 <= distance && distance <= range) || (!facingRight && -range <= distance && distance <= 0))
+    if(Mathf.Abs(distance) < range) 
+    // if((facingRight && 0 <= distance && distance <= range) || (!facingRight && -range <= distance && distance <= 0))
       targetHM.modifyHealth(-damage);
 
 
-    switchTarget();
+    // switchTarget();
     yield return new WaitForSeconds(1f);
     isAttacking = false;
   }
 
   //===================================================================================================================
 
-  private void switchTarget() {
+  // private void switchTarget() {
 
-    if(!playerTran.GetComponent<HealthManager>().enabled) target = monsterTran;
-    else if(!monsterTran.GetComponent<HealthManager>().enabled) target = playerTran;
-    else {
-      float dragonDistance = Vector2.Distance(transform.position, monsterTran.position);
-      float playerDistance = Vector2.Distance(transform.position, playerTran.position);
-      target = playerDistance < dragonDistance ? playerTran : monsterTran;      
-    }
+  //   if(!playerTran.GetComponent<HealthManager>().enabled) target = monsterTran;
+  //   else if(!monsterTran.GetComponent<HealthManager>().enabled) target = playerTran;
+  //   else {
+  //     float dragonDistance = Vector2.Distance(transform.position, monsterTran.position);
+  //     float playerDistance = Vector2.Distance(transform.position, playerTran.position);
+  //     target = playerDistance < dragonDistance ? playerTran : monsterTran;      
+  //   }
 
-    targetColl = target.GetComponent<Collider2D>();
-    targetHM = target.GetComponent<HealthManager>();
-  }
+  //   targetColl = target.GetComponent<Collider2D>(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //   targetHM = target.GetComponent<HealthManager>();
+  // }
 }

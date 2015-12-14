@@ -60,7 +60,7 @@ public class MonsterEat : MonsterBase {
     Vector3 targetOriginalSize = target.localScale;
     while (elapsedTime < duration){
       //Shrink for food.
-      target.localScale = targetOriginalSize * Mathf.Lerp(1, 0, elapsedTime/duration);
+      if(target != null) target.localScale = targetOriginalSize * Mathf.Lerp(1, 0, elapsedTime/duration);
       //Grow for monster.
       float currentGrowth = Mathf.Lerp(0, totalGrowth, elapsedTime/duration);
       float growthStep = currentGrowth - elapsedGrowth;
