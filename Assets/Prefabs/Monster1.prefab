@@ -60,7 +60,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 183858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.2, y: 0.493, z: 3}
+  m_LocalPosition: {x: 1.36, y: 0.493, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 478578}
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextMonster: {fileID: 147962, guid: b2f985c7b4f3f1b49bc3f93f4e9c8635, type: 2}
-  sizeGoal: 1.5
+  sizeGoal: 2.75
   poof: {fileID: 187248, guid: 698a991cb9db7e043a8ebebd9516e283, type: 2}
   atkChargeDuration: 20
   foodDistanceMax: 10
@@ -185,7 +185,7 @@ MonoBehaviour:
   maxSpeed: 0.03
   acceleration: 0.01
   distanceThreshold: 0.25
-  totalGrowth: 0.1
+  totalGrowth: 0.15
   duration: 1
   lPoof: {fileID: 148062, guid: 66186a26e2edc574096f779607c51829, type: 2}
   manaDrop: {fileID: 188786, guid: 4c450cca139055449aa48d5a61669ef2, type: 2}
