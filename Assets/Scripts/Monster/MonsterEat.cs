@@ -22,20 +22,17 @@ public class MonsterEat : MonsterBase {
 
   //===================================================================================================================
 
-  private void onEnable() {
-    target = findNearestFood();
+  private void OnEnable() {
+    // target = findNearestFood();
   }
 
   //===================================================================================================================
 
   protected override void FixedUpdate() {
-    print(reachedFood);
     
-    //If not eating, pick a target, or if at the target, eat.
-    if(!eating) {
-      if(target == null) target = findNearestFood();
-      else if(reachedFood) StartCoroutine("eat");
-    }
+    reachedFood = isFoodClose();
+    if(target == null) target = findNearestFood();
+    if(!eating && reachedFood) StartCoroutine("eat");
 
     base.FixedUpdate();
   }
@@ -47,11 +44,9 @@ public class MonsterEat : MonsterBase {
   //===================================================================================================================
 
   private IEnumerator eat() {
-    print("eat");
     eating = true;
     reachedFood = false;
     anim.SetTrigger("StartEating");
-
 
     //Eat.
     float elapsedTime = 0;
@@ -72,7 +67,6 @@ public class MonsterEat : MonsterBase {
 
     anim.SetTrigger("StopEating");
     if(target != null) Destroy(target.gameObject);
-    target = null;
     eating = false;
   }
 
@@ -97,20 +91,11 @@ public class MonsterEat : MonsterBase {
 
   //===================================================================================================================
 
-  protected override float calcTargetSpeed(){
+  private bool isFoodClose() {
+    if(target == null) return false;
 
-    //If there's nothing to move to stop.
-    if(target == null) return 0;
-
-    //If it is close enough, stop, otherwise, get the correct targetSpeed.
     float distance = target.position.x - transform.position.x;
-    if(Mathf.Abs(distance) < distanceThreshold) {
-      reachedFood = true;
-      return 0;
-    }
-    else return maxSpeed * (distance > 0 ? 1 : -1);
+    return (Mathf.Abs(distance) < distanceThreshold);
   }
-
-  //===================================================================================================================
 
 }
