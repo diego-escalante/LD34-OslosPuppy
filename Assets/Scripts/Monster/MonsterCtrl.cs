@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor.Animations;
 
 public class MonsterCtrl : MonoBehaviour {
 
   private float size = 1;
+  private int currentTier = 1;
 
   //Action stuff.
   private MonsterBase currentAction;
@@ -27,9 +29,19 @@ public class MonsterCtrl : MonoBehaviour {
   //Components.
   private HealthManager healthMgmt;
 
+  //Animation.
+  private Animator anim;
+  public AnimatorController animCtrl1;
+  public AnimatorController animCtrl2;
+  public AnimatorController animCtrl3;
+  public AnimatorController animCtrl4;
+
   //===================================================================================================================
 
   private void Start() {
+
+    anim = GetComponent<Animator>();
+
     //Get camera stuff.
     cam = Camera.main;
     camTrans = cam.transform.parent;
@@ -40,6 +52,7 @@ public class MonsterCtrl : MonoBehaviour {
     
     currentAction = GetComponent<MonsterIdle>();
     StartCoroutine("chargeAttack");
+    evolve();
   }
 
   //===================================================================================================================
@@ -89,7 +102,6 @@ public class MonsterCtrl : MonoBehaviour {
   //===================================================================================================================
 
   private void brain(){
-    print(atkCharge);
     if(atkCharge == 1) switchAction("MonsterAttack");
     else if(hp < hpThreshold && nearestEnemy < nearestEnemyThreshold) switchAction("MonsterEvade");
     else if(foodDistance < foodDistanceMax) switchAction("MonsterEat");
@@ -140,5 +152,23 @@ public class MonsterCtrl : MonoBehaviour {
       if(distance < minDistance) minDistance = distance;
     }
     nearestEnemy = minDistance;    
+  }
+
+  //===================================================================================================================
+
+  private void evolve(){
+    currentTier++;
+
+    switch(currentTier){
+      case 2:
+        anim.runtimeAnimatorController = animCtrl2;
+        transform.localScale = Vector3.one;
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+    }
+
   }
 }
