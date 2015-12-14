@@ -10,6 +10,7 @@ public class MonsterEat : MonsterBase {
   private bool eating = false;
 
   private MonsterCtrl ctrl;
+  public GameObject lPoof;
 
   //===================================================================================================================
 
@@ -58,6 +59,7 @@ public class MonsterEat : MonsterBase {
     float elapsedTime = 0;
     float elapsedGrowth = 0;
     Vector3 targetOriginalSize = target.localScale;
+    Destroy(Instantiate(lPoof, target.position, Quaternion.identity), duration*2);
     while (elapsedTime < duration){
       //Shrink for food.
       if(target != null) target.localScale = targetOriginalSize * Mathf.Lerp(1, 0, elapsedTime/duration);

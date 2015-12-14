@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerAttackBehavior : MonoBehaviour {
 
@@ -18,11 +19,33 @@ public class PlayerAttackBehavior : MonoBehaviour {
   //Properties.
   public bool IsShielding {get {return isShielding;}}
 
+  private float manaAmount = 100;
+  private float timeperpoint = 0.5f;
+  // private float chargeDuration = 30f;
+  private Image manaImg;
+
   //===================================================================================================================
 
   private void Start() {
     anim = GetComponent<Animator>();
     atkPoint = transform.Find("Attack Point");
+    StartCoroutine("charge");
+    manaImg = GameObject.Find("Mana Image").GetComponent<Image>();
+  }
+
+  //===================================================================================================================
+
+  private void FixedUpdate() {
+    manaImg.fillAmount = Mathf.Clamp((float)manaAmount/100, 0 ,1);
+  }
+
+  //===================================================================================================================
+
+  private IEnumerator charge() {
+    while(true){
+      manaAmount = Mathf.Clamp(manaAmount + 1, 0, 100);
+      yield return new WaitForSeconds(timeperpoint);
+    }
   }
 
   //===================================================================================================================
@@ -45,7 +68,8 @@ public class PlayerAttackBehavior : MonoBehaviour {
   //===================================================================================================================
 
   private void attack() {
-    if(!isShielding) {
+    if(!isShielding && manaAmount >= 10) {
+      manaAmount -= 10;
       Instantiate(fireballPrefab, atkPoint.position, Quaternion.identity);
       anim.SetTrigger("Fire");
     }

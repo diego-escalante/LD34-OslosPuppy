@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor.Animations;
+using UnityEngine.UI;
 
 public class MonsterCtrl : MonoBehaviour {
 
@@ -9,8 +10,8 @@ public class MonsterCtrl : MonoBehaviour {
   public GameObject poof;
   public float atkChargeDuration = 5f;
   public float foodDistanceMax = 10f;
-  public float hpThreshold = 0.8f;
   public float nearestEnemyThreshold = 3f;
+  public bool roamEnabled = false;
 
   private float atkChargeElapsed = 0;
   private bool chargeReady = false;
@@ -35,11 +36,15 @@ public class MonsterCtrl : MonoBehaviour {
 
   private EnemyMovement enemyMove;
 
+  private Image atkImg;
+
   //===================================================================================================================
 
   private void Start() {
 
     coll = GetComponent<BoxCollider2D>();
+
+    atkImg = GameObject.Find("Attack Image").GetComponent<Image>();
 
     //Get camera stuff.
     cam = Camera.main;
@@ -55,6 +60,7 @@ public class MonsterCtrl : MonoBehaviour {
   //===================================================================================================================
 
   private void Update() {
+    atkImg.fillAmount = Mathf.Clamp(atkChargeElapsed/atkChargeDuration,0,1);
     updateFoodDistance();
 
     brain();
@@ -101,10 +107,8 @@ public class MonsterCtrl : MonoBehaviour {
   private void brain(){
     if(chargeReady) switchAction("MonsterAttack");
     else if(foodDistance < foodDistanceMax) switchAction("MonsterEat");
-    else {
-      //Idle, follow, roam.
-      switchAction("MonsterFollow");
-    }
+    else if(roamEnabled) switchAction("MonsterRoam");
+    else switchAction("MonsterFollow");
   }
 
   //===================================================================================================================

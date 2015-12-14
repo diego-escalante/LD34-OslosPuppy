@@ -186,10 +186,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 147962, guid: b2f985c7b4f3f1b49bc3f93f4e9c8635, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2f985c7b4f3f1b49bc3f93f4e9c8635, type: 2}
   m_IsPrefabParent: 0
@@ -1236,14 +1232,6 @@ Prefab:
     - target: {fileID: 183858, guid: da2e1bafe8cdc594c871847aa70f57a1, type: 2}
       propertyPath: m_Name
       value: Monster
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400536, guid: da2e1bafe8cdc594c871847aa70f57a1, type: 2}
-      propertyPath: sizeGoal
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11484334, guid: da2e1bafe8cdc594c871847aa70f57a1, type: 2}
-      propertyPath: totalGrowth
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: da2e1bafe8cdc594c871847aa70f57a1, type: 2}
