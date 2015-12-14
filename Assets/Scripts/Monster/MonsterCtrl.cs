@@ -28,6 +28,7 @@ public class MonsterCtrl : MonoBehaviour {
 
   //Components.
   private HealthManager healthMgmt;
+  private BoxCollider2D coll;
 
   //Animation.
   private Animator anim;
@@ -41,6 +42,7 @@ public class MonsterCtrl : MonoBehaviour {
   private void Start() {
 
     anim = GetComponent<Animator>();
+    coll = GetComponent<BoxCollider2D>();
 
     //Get camera stuff.
     cam = Camera.main;
@@ -163,6 +165,8 @@ public class MonsterCtrl : MonoBehaviour {
       case 2:
         anim.runtimeAnimatorController = animCtrl2;
         transform.localScale = Vector3.one;
+        coll.size = new Vector2(1.5f, 2);
+        coll.offset = new Vector2(0, 1);
         break;
       case 3:
         break;
