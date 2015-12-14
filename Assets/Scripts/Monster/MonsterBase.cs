@@ -71,7 +71,7 @@ public class MonsterBase : MonoBehaviour {
 
   //===================================================================================================================
 
-  private void turnAround(float targetSpeed) {
+  protected void turnAround(float targetSpeed) {
     //Flip the x-scale.
     // facingRight = !facingRight;
 

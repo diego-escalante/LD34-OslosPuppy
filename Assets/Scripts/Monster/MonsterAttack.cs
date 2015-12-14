@@ -13,6 +13,8 @@ public class MonsterAttack : MonsterBase {
   private ParticleSystem psys;
   private float fireDuration;
 
+  private MonsterCtrl ctrl;
+
   //===================================================================================================================
 
   protected override void Start() {
@@ -21,6 +23,8 @@ public class MonsterAttack : MonsterBase {
     //Set up particle system stuff.
     psys = transform.Find("Particle System").GetComponent<ParticleSystem>();
     fireDuration = psys.duration + psys.startLifetime;
+
+    ctrl = GetComponent<MonsterCtrl>();
   }
 
   //===================================================================================================================
@@ -30,7 +34,11 @@ public class MonsterAttack : MonsterBase {
     //If not attacking, pick a target, or if at the target, attack.
     if(!attacking) {
       if(target == null) target = findNearestEnemy();
-      if(reachedEnemy) StartCoroutine("attack");
+      if(reachedEnemy) {
+        float distance = target.transform.position.x - transform.position.x;
+        turnAround(distance);
+        StartCoroutine("attack");
+      }
     }
 
     base.FixedUpdate();
@@ -47,6 +55,7 @@ public class MonsterAttack : MonsterBase {
     reachedEnemy = false;
     target = null;
     
+    anim.SetTrigger("StartAttacking");
     psys.Play();
     float elapsedTime = 1f;
     List<GameObject> memory = new List<GameObject>();
@@ -70,7 +79,9 @@ public class MonsterAttack : MonsterBase {
       yield return null;
     }
     psys.Stop();
+    anim.SetTrigger("StopAttacking");
     attacking = false;
+    ctrl.atkCharge = 0;
   }
 
   //===================================================================================================================
