@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextMonster: {fileID: 147962, guid: b2f985c7b4f3f1b49bc3f93f4e9c8635, type: 2}
-  sizeGoal: 3
+  sizeGoal: 1.1
   poof: {fileID: 187248, guid: 698a991cb9db7e043a8ebebd9516e283, type: 2}
   atkCharge: 0
 --- !u!114 &11420664
@@ -1784,6 +1784,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sizeGoal
+      value: 1.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
