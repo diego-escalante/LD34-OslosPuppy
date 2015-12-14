@@ -31,8 +31,6 @@ GameObject:
   - 114: {fileID: 11422382}
   - 114: {fileID: 11470180}
   - 114: {fileID: 11479234}
-  - 114: {fileID: 11430080}
-  - 114: {fileID: 11420664}
   - 114: {fileID: 11464114}
   - 114: {fileID: 11484334}
   - 114: {fileID: 11400536}
@@ -62,7 +60,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 183858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.58, y: 0.499, z: 3}
+  m_LocalPosition: {x: -5.2, y: 0.493, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 478578}
@@ -110,28 +108,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b384970544573e54aa0225b9ffd7f09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkCharge: 0
-  animCtrl1: {fileID: 9100000, guid: 7e7cf915d98e5d8438534d07500e42fb, type: 2}
-  animCtrl2: {fileID: 9100000, guid: b8ccce20caeda77418032384b038fa2c, type: 2}
-  animCtrl3: {fileID: 9100000, guid: 7e7cf915d98e5d8438534d07500e42fb, type: 2}
-  animCtrl4: {fileID: 9100000, guid: 7e7cf915d98e5d8438534d07500e42fb, type: 2}
---- !u!114 &11420664
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183858}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4769ce299b538ed44b5b7be2e1acc507, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 0.03
-  acceleration: 0.01
-  distanceThreshold: 1
-  maxRoamDistance: 10
-  chooseCD: 10
-  chooseCDDelta: 3
+  nextMonster: {fileID: 147962, guid: b2f985c7b4f3f1b49bc3f93f4e9c8635, type: 2}
+  sizeGoal: 1.5
+  poof: {fileID: 187248, guid: 698a991cb9db7e043a8ebebd9516e283, type: 2}
+  atkChargeDuration: 20
+  foodDistanceMax: 10
+  nearestEnemyThreshold: 3
+  roamEnabled: 0
 --- !u!114 &11422382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,22 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f48472f1af9867445b4ee87645baf457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
---- !u!114 &11430080
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183858}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d14585b9e2288404bb78bfeeb3d8a269, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 0.03
-  acceleration: 0.01
-  distanceThreshold: 3
-  searchRadius: 3
+  maxHealth: 50
 --- !u!114 &11464114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -174,6 +142,7 @@ MonoBehaviour:
   acceleration: 0.01
   distanceThreshold: 2.5
   damage: 3
+  range: 2.75
 --- !u!114 &11470180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,7 +186,9 @@ MonoBehaviour:
   acceleration: 0.01
   distanceThreshold: 0.25
   totalGrowth: 0.1
-  duration: 3
+  duration: 1
+  lPoof: {fileID: 148062, guid: 66186a26e2edc574096f779607c51829, type: 2}
+  manaDrop: {fileID: 188786, guid: 4c450cca139055449aa48d5a61669ef2, type: 2}
 --- !u!198 &19844954
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1769,7 +1740,31 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: poof
+      value: 
+      objectReference: {fileID: 187248, guid: 698a991cb9db7e043a8ebebd9516e283, type: 2}
+    - target: {fileID: 0}
+      propertyPath: totalGrowth
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sizeGoal
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: atkChargeDuration
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 183858}

@@ -10,6 +10,8 @@ public class MonsterEat : MonsterBase {
   private bool eating = false;
 
   private MonsterCtrl ctrl;
+  public GameObject lPoof;
+  public GameObject manaDrop;
 
   //===================================================================================================================
 
@@ -23,7 +25,9 @@ public class MonsterEat : MonsterBase {
   //===================================================================================================================
 
   private void OnEnable() {
-    // target = findNearestFood();
+    target = findNearestFood();
+    reachedFood = false;
+    eating = false;
   }
 
   //===================================================================================================================
@@ -39,22 +43,27 @@ public class MonsterEat : MonsterBase {
 
   //===================================================================================================================
 
-  private void OnDisable() { StopCoroutine("eat"); }
+  private void OnDisable() { 
+    StopCoroutine("eat");
+    if(reachedFood) anim.SetTrigger("StopEating");
+    if(eating && target != null) Destroy(target.gameObject);
+  }
 
   //===================================================================================================================
 
   private IEnumerator eat() {
     eating = true;
-    reachedFood = false;
     anim.SetTrigger("StartEating");
+    reachedFood = false;
 
     //Eat.
     float elapsedTime = 0;
     float elapsedGrowth = 0;
     Vector3 targetOriginalSize = target.localScale;
+    Destroy(Instantiate(lPoof, target.position, Quaternion.identity), duration*2);
     while (elapsedTime < duration){
       //Shrink for food.
-      target.localScale = targetOriginalSize * Mathf.Lerp(1, 0, elapsedTime/duration);
+      if(target != null) target.localScale = targetOriginalSize * Mathf.Lerp(1, 0, elapsedTime/duration);
       //Grow for monster.
       float currentGrowth = Mathf.Lerp(0, totalGrowth, elapsedTime/duration);
       float growthStep = currentGrowth - elapsedGrowth;
@@ -66,7 +75,10 @@ public class MonsterEat : MonsterBase {
     ctrl.grow(totalGrowth - elapsedGrowth);
 
     anim.SetTrigger("StopEating");
-    if(target != null) Destroy(target.gameObject);
+    if(target != null) {
+      if(Random.value > 0.7f) Instantiate(manaDrop, target.position, Quaternion.Euler(0,0,85));
+      Destroy(target.gameObject);
+    }
     eating = false;
   }
 

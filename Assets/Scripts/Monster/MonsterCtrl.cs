@@ -1,69 +1,71 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor.Animations;
+using UnityEngine.UI;
 
 public class MonsterCtrl : MonoBehaviour {
 
+  public GameObject nextMonster;
+  public float sizeGoal;
+  public GameObject poof;
+  public float atkChargeDuration = 5f;
+  public float foodDistanceMax = 10f;
+  public float nearestEnemyThreshold = 3f;
+  public bool roamEnabled = false;
+
+  private float atkChargeElapsed = 0;
+  private bool chargeReady = false;
+
   private float size = 1;
-  private int currentTier = 1;
 
   //Action stuff.
   private MonsterBase currentAction;
   
-  private float hp;
-  public float atkCharge = 0f;
   private float foodDistance;
-
-  private float atkChargeSpeed = 2f;
-  private float hpThreshold = 0.8f;
-  private float foodDistanceMax = 10f;
-
   private float nearestEnemy;
-  private float nearestEnemyThreshold = 10f;
+  
 
   //Camera scaling stuff.
   private Camera cam;
   private Transform camTrans;
   private float camSize;
+  private float camSizeMultiplier;
 
   //Components.
-  private HealthManager healthMgmt;
+  private BoxCollider2D coll;
 
-  //Animation.
-  private Animator anim;
-  public AnimatorController animCtrl1;
-  public AnimatorController animCtrl2;
-  public AnimatorController animCtrl3;
-  public AnimatorController animCtrl4;
+  private EnemyMovement enemyMove;
+
+  private Image atkImg;
 
   //===================================================================================================================
 
   private void Start() {
 
-    anim = GetComponent<Animator>();
+    coll = GetComponent<BoxCollider2D>();
+
+    atkImg = GameObject.Find("Attack Image").GetComponent<Image>();
 
     //Get camera stuff.
     cam = Camera.main;
     camTrans = cam.transform.parent;
     camSize = Camera.main.orthographicSize;
+    camSizeMultiplier = size;
 
-    //Get components.
-    healthMgmt = GetComponent<HealthManager>();
     
     currentAction = GetComponent<MonsterIdle>();
     StartCoroutine("chargeAttack");
-    evolve();
   }
 
   //===================================================================================================================
 
   private void Update() {
-    updateHP();
+    atkImg.fillAmount = Mathf.Clamp(atkChargeElapsed/atkChargeDuration,0,1);
     updateFoodDistance();
-    updateEnemyDistance();
-    //updateAttack
 
     brain();
+
+    if(size >= sizeGoal) evolve();
 
   }
 
@@ -72,11 +74,12 @@ public class MonsterCtrl : MonoBehaviour {
   public void grow(float amount) {
     //Increase the size of the monster.
     size += amount;
+    camSizeMultiplier += amount;
     transform.localScale = new Vector3(1 * size * (transform.localScale.x >= 0 ? 1 : -1), 1 * size, 1);
 
     //Scale the camera.
     float monsView = cam.WorldToViewportPoint(transform.position).y;
-    cam.orthographicSize = camSize * size;
+    cam.orthographicSize = camSize * camSizeMultiplier;
     float deltaWorldPos = cam.ViewportToWorldPoint(new Vector3(0, monsView, cam.nearClipPlane)).y - transform.position.y;
     camTrans.Translate(new Vector3(0, -deltaWorldPos, 0));
   }
@@ -102,32 +105,28 @@ public class MonsterCtrl : MonoBehaviour {
   //===================================================================================================================
 
   private void brain(){
-    if(atkCharge == 1) switchAction("MonsterAttack");
-    else if(hp < hpThreshold && nearestEnemy < nearestEnemyThreshold) switchAction("MonsterEvade");
+    if(chargeReady) switchAction("MonsterAttack");
     else if(foodDistance < foodDistanceMax) switchAction("MonsterEat");
-    else {
-      //Idle, follow, roam.
-      switchAction("MonsterFollow");
-    }
-
+    else if(roamEnabled) switchAction("MonsterRoam");
+    else switchAction("MonsterFollow");
   }
 
   //===================================================================================================================
 
-  private void updateHP(){
-    hp = healthMgmt.getHealth();
+  public void atkDone(){
+    StartCoroutine("chargeAttack");
   }
 
   //===================================================================================================================
 
   private IEnumerator chargeAttack() {
-    while(true) {
-      if(atkCharge < 1) {
-        atkCharge += 0.01f;
-        atkCharge = Mathf.Min(atkCharge, 1);
-      }
-      yield return new WaitForSeconds(atkChargeSpeed);
+    chargeReady = false;
+    while(atkChargeElapsed < atkChargeDuration) {
+      atkChargeElapsed += Time.deltaTime;
+      yield return null;
     }
+    atkChargeElapsed = 0;
+    chargeReady = true;
   }
 
   //===================================================================================================================
@@ -144,31 +143,10 @@ public class MonsterCtrl : MonoBehaviour {
 
   //===================================================================================================================
 
-  private void updateEnemyDistance() {
-    float minDistance = Mathf.Infinity;
-    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-    foreach(GameObject enemy in enemies) {
-      float distance = Mathf.Abs(enemy.transform.position.x - transform.position.x);
-      if(distance < minDistance) minDistance = distance;
-    }
-    nearestEnemy = minDistance;    
-  }
-
-  //===================================================================================================================
-
   private void evolve(){
-    currentTier++;
-
-    switch(currentTier){
-      case 2:
-        anim.runtimeAnimatorController = animCtrl2;
-        transform.localScale = Vector3.one;
-        break;
-      case 3:
-        break;
-      case 4:
-        break;
+      Instantiate(poof, transform.position + new Vector3(0, coll.size.y/2,0), Quaternion.identity);
+      MonsterCtrl newCtrl = ((GameObject)Instantiate(nextMonster, transform.position, Quaternion.identity)).GetComponent<MonsterCtrl>();
+      newCtrl.atkChargeElapsed = atkChargeElapsed;
+      Destroy(gameObject);
     }
-
-  }
 }

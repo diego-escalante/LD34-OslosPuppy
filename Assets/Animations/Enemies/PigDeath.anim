@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: DragonEat
+  m_Name: PigDeath
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -19,15 +19,9 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: ae6da4a5edbdcae45a2ae31086006aa2, type: 3}
+      value: {fileID: 21300000, guid: f97d5d660739ba542aaf7a5a07ca96d8, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: dac373ffab7e4d743bea0caa37dde3f8, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: 8e87ed833d3416f49865dd4f937c1f43, type: 3}
-    - time: 0.25
-      value: {fileID: 21300000, guid: 8721a7ad0e1f26a4ca6b421db89d5523, type: 3}
-    - time: 0.33333334
-      value: {fileID: 21300000, guid: ae6da4a5edbdcae45a2ae31086006aa2, type: 3}
+      value: {fileID: 21300000, guid: 8a7bf2582a6819a4e97fd3b12496d5c7, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,22 +40,19 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: ae6da4a5edbdcae45a2ae31086006aa2, type: 3}
-    - {fileID: 21300000, guid: dac373ffab7e4d743bea0caa37dde3f8, type: 3}
-    - {fileID: 21300000, guid: 8e87ed833d3416f49865dd4f937c1f43, type: 3}
-    - {fileID: 21300000, guid: 8721a7ad0e1f26a4ca6b421db89d5523, type: 3}
-    - {fileID: 21300000, guid: ae6da4a5edbdcae45a2ae31086006aa2, type: 3}
+    - {fileID: 21300000, guid: f97d5d660739ba542aaf7a5a07ca96d8, type: 3}
+    - {fileID: 21300000, guid: 8a7bf2582a6819a4e97fd3b12496d5c7, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.35000002
+    m_StopTime: 0.1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MonsterAttack : MonsterBase {
 
   public float damage = 3f;
-  private float range = 3f;
+  public float range = 3f;
 
   private bool reachedEnemy = false;
   private bool attacking = false;
@@ -22,7 +22,7 @@ public class MonsterAttack : MonsterBase {
 
     //Set up particle system stuff.
     psys = transform.Find("Particle System").GetComponent<ParticleSystem>();
-    fireDuration = psys.duration + psys.startLifetime;
+    fireDuration = psys.duration + psys.startLifetime -1;
 
     ctrl = GetComponent<MonsterCtrl>();
   }
@@ -62,6 +62,7 @@ public class MonsterAttack : MonsterBase {
 
     yield return new WaitForSeconds(elapsedTime);
     while(elapsedTime < fireDuration) {
+      facingRight = transform.localScale.x > 0;
 
       GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
       foreach(GameObject enemy in enemies){
@@ -81,7 +82,7 @@ public class MonsterAttack : MonsterBase {
     psys.Stop();
     anim.SetTrigger("StopAttacking");
     attacking = false;
-    ctrl.atkCharge = 0;
+    ctrl.atkDone();
   }
 
   //===================================================================================================================
