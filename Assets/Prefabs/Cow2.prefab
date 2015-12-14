@@ -31,7 +31,7 @@ GameObject:
   - 50: {fileID: 5079616}
   - 95: {fileID: 9500376}
   m_Layer: 9
-  m_Name: Cow 1
+  m_Name: Cow2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

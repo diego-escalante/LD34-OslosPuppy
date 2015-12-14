@@ -12,12 +12,14 @@ public class MonsterEat : MonsterBase {
   private MonsterCtrl ctrl;
   public GameObject lPoof;
   public GameObject manaDrop;
+  private ScoreKeeper score;
 
   //===================================================================================================================
 
   protected override void Start() {
     //Get monster controller.
     ctrl = GetComponent<MonsterCtrl>();
+    score = GameObject.Find("Canvas/Score Text").GetComponent<ScoreKeeper>();
 
     base.Start();
   }
@@ -77,6 +79,7 @@ public class MonsterEat : MonsterBase {
     anim.SetTrigger("StopEating");
     if(target != null) {
       if(Random.value > 0.7f) Instantiate(manaDrop, target.position, Quaternion.Euler(0,0,85));
+      score.modifyScore(1);
       Destroy(target.gameObject);
     }
     eating = false;

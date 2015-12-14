@@ -185,7 +185,7 @@ MonoBehaviour:
   maxSpeed: 0.03
   acceleration: 0.01
   distanceThreshold: 0.25
-  totalGrowth: 0.1
+  totalGrowth: 0.15
   duration: 1
   lPoof: {fileID: 148062, guid: 66186a26e2edc574096f779607c51829, type: 2}
   manaDrop: {fileID: 188786, guid: 4c450cca139055449aa48d5a61669ef2, type: 2}
