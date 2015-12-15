@@ -79,7 +79,7 @@ public class MonsterCtrl : MonoBehaviour {
 
     //Scale the camera.
     float monsView = cam.WorldToViewportPoint(transform.position).y;
-    cam.orthographicSize = camSize * camSizeMultiplier;
+    cam.orthographicSize = Mathf.Min(camSize * camSizeMultiplier, 8);
     float deltaWorldPos = cam.ViewportToWorldPoint(new Vector3(0, monsView, cam.nearClipPlane)).y - transform.position.y;
     camTrans.Translate(new Vector3(0, -deltaWorldPos, 0));
   }
