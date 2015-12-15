@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour {
 
   public const float WORLD_SIZE = 100f;
 
+
+
   // //===================================================================================================================
 
   // private void Start() {
@@ -18,8 +20,8 @@ public class GameController : MonoBehaviour {
 
   // //===================================================================================================================
 
-  // private void Update() {
-  //   if(Input.GetKeyDown("r")) restart();
+  private void Update() {
+    if(Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
   //   // if(loseCheck()) Invoke("restart", 3); 
   // }
 
@@ -29,5 +31,5 @@ public class GameController : MonoBehaviour {
 
   // private void restart() {
   //   SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-  // }
+  }
 }

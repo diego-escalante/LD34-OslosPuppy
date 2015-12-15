@@ -71,7 +71,8 @@ public class MonsterAttack : MonsterBase {
         
         if((facingRight && 0 <= distance && distance <= range) ||
           (!facingRight && -range <= distance && distance <= 0)) {
-          enemy.GetComponent<HealthManager>().modifyHealth(-damage);
+          HealthManager hm = enemy.GetComponent<HealthManager>();
+          if(hm != null) hm.modifyHealth(-damage);
           memory.Add(enemy);
         }
       }
