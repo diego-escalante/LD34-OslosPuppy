@@ -17,6 +17,8 @@ public class HealthManager : MonoBehaviour {
 
   private Image hpImg;
 
+  private Animator animCanvas;
+
   //===================================================================================================================
 
   private void Start() {
@@ -30,6 +32,8 @@ public class HealthManager : MonoBehaviour {
       isPlayer = true;
       playerAtk = GetComponent<PlayerAttackBehavior>();
     }
+
+    animCanvas = GameObject.Find("Canvas/Black").GetComponent<Animator>();
   }
 
   //===================================================================================================================
@@ -63,11 +67,9 @@ public class HealthManager : MonoBehaviour {
       GetComponent<MonsterCtrl>().enabled = false;
       MonsterBase[] comps = GetComponents<MonsterBase>();
       foreach(MonsterBase comp in comps) comp.enabled = false;
-    }
-
-    else if(gameObject.tag == "Player") {
-      GetComponent<PlayerMovement>().enabled = false;
-      GetComponent<PlayerAttackBehavior>().enabled = false;
+      animCanvas.SetTrigger("FadeOut");
+      GameObject.FindWithTag("Player").GetComponent<PlayerMovement>().enabled = false;
+      GameObject.FindWithTag("Player").GetComponent<PlayerAttackBehavior>().enabled = false;
     }
     
     this.enabled = false;

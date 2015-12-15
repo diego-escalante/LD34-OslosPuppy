@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ScoreKeeper : MonoBehaviour {
 
-  private int score = 0;
+  public int score = 0;
   private Text scoreTxt;
 
   //===================================================================================================================

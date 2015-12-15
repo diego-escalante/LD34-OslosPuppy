@@ -715,8 +715,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 106}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 141.5}
+  m_SizeDelta: {x: 681, y: 436}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &96602870
 MonoBehaviour:
@@ -737,9 +737,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 4582e5dd881ac134baac22e498931c16, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -2406,7 +2406,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 538649687}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.31, y: 1.26, z: -10}
+  m_LocalPosition: {x: -57.9, y: 1.26, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 574081146}
@@ -4124,6 +4124,7 @@ GameObject:
   - 222: {fileID: 815748650}
   - 114: {fileID: 815748649}
   - 114: {fileID: 815748648}
+  - 114: {fileID: 815748651}
   m_Layer: 5
   m_Name: Score Text 2
   m_TagString: Untagged
@@ -4156,9 +4157,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 815748646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba3890ec27f549e438ffcf1c980db14e, type: 3}
+  m_Script: {fileID: 11500000, guid: 276fc5221f6673f4d8d9e98a43cc0da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  t: {fileID: 1222779836}
 --- !u!114 &815748649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4198,6 +4200,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 815748646}
+--- !u!114 &815748651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 815748646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56241d6df9101341adfd93232eedf84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &821030201
 GameObject:
   m_ObjectHideFlags: 0
@@ -6444,6 +6457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba3890ec27f549e438ffcf1c980db14e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
 --- !u!1 &1236367341
 GameObject:
   m_ObjectHideFlags: 0
@@ -11214,13 +11228,18 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 300
-    m_Alignment: 1
+    m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Game Over!
+  m_Text: 'Game Over!
+
+
+    Press space to restart.
+
+'
 --- !u!222 &2136721358
 CanvasRenderer:
   m_ObjectHideFlags: 0

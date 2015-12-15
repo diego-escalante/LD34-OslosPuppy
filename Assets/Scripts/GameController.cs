@@ -18,16 +18,16 @@ public class GameController : MonoBehaviour {
 
   // //===================================================================================================================
 
-  private void Update() {
-    if(Input.GetKeyDown("r")) restart();
-    // if(loseCheck()) Invoke("restart", 3); 
-  }
-
-  // private bool loseCheck() {
-  //   return !monsterHM.enabled && !playerHM.enabled;
+  // private void Update() {
+  //   if(Input.GetKeyDown("r")) restart();
+  //   // if(loseCheck()) Invoke("restart", 3); 
   // }
 
-  private void restart() {
-    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-  }
+  // // private bool loseCheck() {
+  // //   return !monsterHM.enabled && !playerHM.enabled;
+  // // }
+
+  // private void restart() {
+  //   SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+  // }
 }

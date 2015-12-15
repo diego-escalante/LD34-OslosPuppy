@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor.Animations;
+// using UnityEditor.Animations;
 using UnityEngine.UI;
 
 public class MonsterCtrl : MonoBehaviour {
