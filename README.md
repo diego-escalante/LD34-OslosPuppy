@@ -1,3 +1,3 @@
 # Ludum Dare 34
 
-This repo houses my Ludum Dare 34 jam entry.
+This repo houses our Ludum Dare 34 jam entry.
