@@ -8,7 +8,7 @@
 </p>
 
 ## [Play the game here!](https://diego-escalante.itch.io/oslos-puppy)
-This game was made in 72 hours for the Ludum Dare 34 jam. The theme of the jam was "two buttons" and "growing." It was made with Unity.
+This game was made in 72 hours for the Ludum Dare 34 jam in December 2015. The theme of the jam was "two buttons" and "growing." It was made with Unity.
 
 ## Links
 * [Oslo's Puppy on itch.io](https://diego-escalante.itch.io/oslos-puppy): Play the game directly on your browser here.
